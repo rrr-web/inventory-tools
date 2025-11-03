@@ -46,4 +46,18 @@ model stock_warehouse {
   createdAt  DateTime @default(now())
 }
 
-
+model request_tool {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  toolName    String
+  quantity    Int
+  requester   String
+  merk        String?
+  PN          String?
+  price       Int?
+  spec        String?
+  reason      String
+  reference   String?
+  note        String?
+  status      String   @default("Open")
+  createdAt   DateTime @default(now())
+}

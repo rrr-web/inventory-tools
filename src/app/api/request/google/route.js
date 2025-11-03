@@ -16,13 +16,14 @@ export async function POST(req) {
     const newRequest = await prisma.request.create({
       data: {
         toolName: body.toolName,
-        brand: body.brand,
-        PN: body.PN,
-        spec: body.spec,
-        quantity: Number(body.quantity),
-        price: Number(body.price) || null,
+        quantity: body.quantity,
+        requester: body.requester,
+        merk: body.merk || "N/A",
+        PN: body.PN || "N/A",
+        spec: body.spec || "N/A",
+        price: Number(body.price) || 0,
         reason: body.reason,
-        workLocation: body.workLocation,
+        location: body.location,
         notes: body.notes || null,
       },
     });
