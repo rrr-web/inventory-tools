@@ -6,7 +6,7 @@ export async function POST(req) {
   const authHeader = req.headers.get("authorization");
   const token = authHeader?.replace("Bearer ", "");
 
-  if (!token || token !== process.env.GOOGLE_FORM_SECRET) {
+  if (!token || token !== process.env.API_KEY) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
