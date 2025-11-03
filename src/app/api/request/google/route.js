@@ -16,7 +16,7 @@ export async function POST(req) {
     const newRequest = await prisma.request.create({
       data: {
         toolName: body.toolName,
-        quantity: body.quantity,
+        quantity: Number(body.quantity),
         requester: body.requester,
         merk: body.merk || "N/A",
         spec: body.spec || "N/A",
