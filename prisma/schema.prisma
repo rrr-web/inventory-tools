@@ -52,10 +52,11 @@ model request_tool {
   quantity    Int
   requester   String
   merk        String?
+  spec        String?
   PN          String?
   price       Int?
-  spec        String?
   reason      String
+  location    String
   reference   String?
   note        String?
   status      String   @default("Open")

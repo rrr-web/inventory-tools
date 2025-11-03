@@ -19,12 +19,13 @@ export async function POST(req) {
         quantity: body.quantity,
         requester: body.requester,
         merk: body.merk || "N/A",
-        PN: body.PN || "N/A",
         spec: body.spec || "N/A",
+        PN: body.PN || "N/A",
         price: Number(body.price) || 0,
         reason: body.reason,
         location: body.location,
-        notes: body.notes || null,
+        reference: body.reference || "N/A",
+        notes: body.notes || "N/A",
       },
     });
 
