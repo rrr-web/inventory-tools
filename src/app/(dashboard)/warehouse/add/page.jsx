@@ -25,7 +25,7 @@ export default function WarehouseAddPage() {
       if (!res.ok) throw new Error("Gagal menambah data")
       alert("✅ Data alat berhasil ditambahkan!")
 
-      router.push("/tools")
+      router.push("/warehouse")
     } catch (error) {
       console.error(error)
       alert("❌ Terjadi kesalahan saat menyimpan data.")

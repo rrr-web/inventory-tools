@@ -105,6 +105,7 @@ export default function WarehousePage() {
        {loading ? (
         <p>Memuat data...</p>
       ) : tools.length === 0 ? (
+        <div className="bg-white p-4 rounded-xl drop-shadow-2xl min-h-fit">
         <table className="min-w-full border border-gray-200">
           <thead className="bg-gray-100">
             <tr>
@@ -124,7 +125,9 @@ export default function WarehousePage() {
             </tr>
           </thead>
         </table>
+        </div>
       ) : (
+        <div className="bg-white p-4 rounded-xl drop-shadow-2xl min-h-fit">
         <table className="min-w-full border border-gray-200">
           <thead className="bg-gray-100">
             <tr>
@@ -218,7 +221,7 @@ export default function WarehousePage() {
                     <select
                       name="location"
                       value={editData.location}
-                      onChange={handleChange}
+                      onChange={handleChange} 
                       className="border p-1 rounded"
                     >
                       <option value="Gudang">Gudang</option>
@@ -272,6 +275,7 @@ export default function WarehousePage() {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   )
