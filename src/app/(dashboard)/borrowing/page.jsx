@@ -1,48 +1,51 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { useEffect, useState } from "react"
-
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function BorrowPage() {
-  const [borrows, setBorrows] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [editingId, setEditingId] = useState(null) 
-  const [editData, setEditData] = useState({ status: "", returnDate: "", condition: "" })
+  const [borrows, setBorrows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [editingId, setEditingId] = useState(null);
+  const [editData, setEditData] = useState({
+    status: "",
+    returnDate: "",
+    condition: "",
+  });
 
   // Ambil data dari API
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   const fetchData = async () => {
-  setLoading(true)
-  try {
-    const res = await fetch("/api/borrowing")
-    const data = await res.json()
-    setBorrows(data)
-  } catch (err) {
-    console.error(err)
-  } finally {
-    setLoading(false)
-  }
-}
+    setLoading(true);
+    try {
+      const res = await fetch("/api/borrowing");
+      const data = await res.json();
+      setBorrows(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Fungsi mulai edit
   const handleStartEdit = (b) => {
-    setEditingId(b.id)
+    setEditingId(b.id);
     setEditData({
       status: b.status || "",
       condition: b.condition || "",
       returnDate: b.returnDate ? b.returnDate.split("T")[0] : "",
-    })
-      }
+    });
+  };
 
   // Fungsi ubah input
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setEditData((prev) => ({ ...prev, [name]: value }))
-    }
+    const { name, value } = e.target;
+    setEditData((prev) => ({ ...prev, [name]: value }));
+  };
 
   // Simpan perubahan
   const handleSave = async (id) => {
@@ -53,45 +56,47 @@ export default function BorrowPage() {
         body: JSON.stringify({
           status: editData.status,
           condition: editData.condition,
-          returnDate: editData.returnDate ? new Date(editData.returnDate) : null,
+          location: editData.location,
+          returnDate: editData.returnDate
+            ? new Date(editData.returnDate)
+            : null,
         }),
-      })
-   
-      if (!res.ok) throw new Error("Gagal menyimpan data")
+      });
 
-      const updated = await res.json()
+      if (!res.ok) throw new Error("Gagal menyimpan data");
+
+      const updated = await res.json();
 
       // Update state borrows secara lokal
       if (updated.status === "Closed") {
-      // Jika sudah Close → hapus dari daftar
-      setBorrows((prev) => prev.filter((b) => b.id !== id));
-       
-    } else {
-      // Jika masih Open → update datanya
-      setBorrows((prev) => prev.map((b) => (b.id === id ? updated : b)));
-    }
+        // Jika sudah Close → hapus dari daftar
+        setBorrows((prev) => prev.filter((b) => b.id !== id));
+      } else {
+        // Jika masih Open → update datanya
+        setBorrows((prev) => prev.map((b) => (b.id === id ? updated : b)));
+      }
 
-      setEditingId(null)
-      alert("✅ Data berhasil diperbarui")
-        window.location.reload()
+      setEditingId(null);
+      alert("✅ Data berhasil diperbarui");
+      window.location.reload();
     } catch (err) {
-      console.error(err)
-      alert("Terjadi kesalahan: " + err.message)
+      console.error(err);
+      alert("Terjadi kesalahan: " + err.message);
     }
-  }
+  };
 
   // Hapus data
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`/api/borrowing/${id}`, { method: "DELETE" })
-      if (!res.ok) throw new Error("Gagal menghapus data")
+      const res = await fetch(`/api/borrowing/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Gagal menghapus data");
 
-      setBorrows((prev) => prev.filter((b) => b.id !== id))
+      setBorrows((prev) => prev.filter((b) => b.id !== id));
     } catch (err) {
-      console.error(err)
-      alert("Gagal menghapus data")
+      console.error(err);
+      alert("Gagal menghapus data");
     }
-  }
+  };
 
   return (
     <div className="text-black bg-white p-4 rounded-xl shadow min-h-full">
@@ -107,6 +112,7 @@ export default function BorrowPage() {
       {loading ? (
         <p>Memuat data...</p>
       ) : borrows.length === 0 ? (
+        <div className="bg-white p-4 rounded-xl drop-shadow-2xl min-h-fit">
         <table className="min-w-full border border-gray-200">
           <thead className="bg-gray-100">
             <tr>
@@ -126,7 +132,9 @@ export default function BorrowPage() {
             </tr>
           </thead>
         </table>
+      </div>
       ) : (
+        <div className="bg-white p-4 rounded-xl drop-shadow-2xl min-h-fit">
         <table className="min-w-full border border-gray-200">
           <thead className="bg-gray-100">
             <tr>
@@ -183,21 +191,26 @@ export default function BorrowPage() {
                     b.status
                   )}
                 </td>
-              
-                  { /* Kolom kondisi */}
+
+                {/* Kolom lokasi */}
                 <td className="border p-2">
                   {editingId === b.id ? (
                     <select
-                      name="condition"
-                      value={editData.condition}
+                      name="location"
+                      value={editData.location}
                       onChange={handleChange}
                       className="border p-1 rounded"
                     >
-                      <option value="Normal">Normal</option>
-                      <option value="Rusak">Rusak</option>
+                      <option value="" disabled>
+                        Pilih lokasi
+                      </option>
+                      <option value="MSF">MSF</option>
+                      <option value="AST & KAMAZ">AST & KAMAZ</option>
+                      <option value="TYRE">TYRE</option>
+                      <option value="WS KLAWAS">WS KLAWAS</option>
                     </select>
                   ) : (
-                    b.condition
+                    b.location
                   )}
                 </td>
 
@@ -225,7 +238,7 @@ export default function BorrowPage() {
                         onClick={() => handleStartEdit(b)}
                         className="text-blue-600 hover:underline mr-2"
                       >
-                         Edit
+                        Edit
                       </button>
                       <span>|</span>
                       <button
@@ -241,7 +254,8 @@ export default function BorrowPage() {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
-  )
+  );
 }

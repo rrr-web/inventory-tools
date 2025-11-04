@@ -20,7 +20,7 @@ model Borrow {
   borrowDate  DateTime
   returnDate  DateTime?
   status      String   @default("Open")
-  condition   String   @default("Normal")
+  location    String
   createdAt   DateTime @default(now())
 }
 

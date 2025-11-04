@@ -1,6 +1,23 @@
+"use client";
+import { useEffect, useState } from "react";
+
 export default function RequestsPage() {
+  const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRequests = async () => {
+      setLoading(true);
+      const response = await fetch("/api/request");
+      const data = await response.json();
+      setRequests(data);
+      setLoading(false);
+    };
+    fetchRequests();
+  }, []);
+
   return (
-    <div className="text-black">
+    <div className="text-black bg-white p-4 rounded-xl shadow min-h-full">
       <h1 className="text-2xl font-bold mb-4">Permintaan Tools Baru</h1>
 
       {/* Tombol tambah permintaan */}
@@ -9,7 +26,8 @@ export default function RequestsPage() {
       </button>
 
       {/* Tabel daftar permintaan */}
-      <div className="bg-white p-4 rounded-xl shadow min-h-screen">
+
+      <div className="bg-white p-4 rounded-xl drop-shadow-2xl min-h-fit">
         <table className="min-w-full border border-gray-200">
           <thead className="bg-gray-100">
             <tr>

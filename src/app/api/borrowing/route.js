@@ -31,7 +31,7 @@ export async function POST(request) {
         borrower: body.borrower,
         borrowDate: new Date(body.borrowDate),
         status: "Open",
-        condition: "Normal",
+        location: body.location,
       },
     })
 

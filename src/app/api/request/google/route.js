@@ -12,8 +12,9 @@ export async function POST(req) {
 
   try {
     const body = await req.json();
+    console.log(body);
 
-    const newRequest = await prisma.request.create({
+    const newRequest = await prisma.request_tool.create({
       data: {
         toolName: body.toolName,
         quantity: Number(body.quantity),
@@ -25,7 +26,7 @@ export async function POST(req) {
         reason: body.reason,
         location: body.location,
         reference: body.reference || "N/A",
-        notes: body.notes || "N/A",
+        note: body.note || "N/A",
       },
     });
 

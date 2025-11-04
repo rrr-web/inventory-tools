@@ -9,6 +9,7 @@ export default function AddBorrowPage() {
     borrower: "",
     borrowDate: "",
     returnDate: "",
+    location: "",
   })
 
   async function handleSubmit(e) {
@@ -87,6 +88,23 @@ export default function AddBorrowPage() {
               onChange={(e) => setForm({ ...form, borrowDate: e.target.value })}
               required
             />
+          </div>
+
+          {/* Input Lokasi */}  
+          <div>
+            <label className="block text-sm font-medium mb-1">Lokasi</label>
+            <select
+              className="w-full border border-gray-300 p-2 rounded focus:outline-blue-500"
+              value={form.location}
+              onChange={(e) => setForm({ ...form, location: e.target.value })}
+              required
+            >
+              <option value="" disabled>Pilih lokasi</option>
+              <option value="MSF">MSF</option>
+              <option value="AST & KAMAZ">AST & KAMAZ</option>
+              <option value="TYRE">TYRE</option>
+              <option value="WS KLAWAS">WS KLAWAS</option>
+            </select>
           </div>
 
           {/* Input Tanggal Kembali */}

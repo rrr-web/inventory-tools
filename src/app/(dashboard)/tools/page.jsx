@@ -105,6 +105,7 @@ export default function ToolsPage() {
        {loading ? (
         <p>Memuat data...</p>
       ) : tools.length === 0 ? (
+        <div className="bg-white p-4 rounded-xl drop-shadow-2xl min-h-fit">
         <table className="min-w-full border border-gray-200">
           <thead className="bg-gray-100">
             <tr>
@@ -124,7 +125,9 @@ export default function ToolsPage() {
             </tr>
           </thead>
         </table>
+        </div>
       ) : (
+        <div className="bg-white p-4 rounded-xl drop-shadow-2xl min-h-fit">
         <table className="min-w-full border border-gray-200">
           <thead className="bg-gray-100">
             <tr>
@@ -272,6 +275,7 @@ export default function ToolsPage() {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   )
