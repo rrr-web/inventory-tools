@@ -122,7 +122,8 @@ export default function BorrowPage() {
               <th className="border p-2 text-left">Tanggal Pinjam</th>
               <th className="border p-2 text-left">Tanggal Kembali</th>
               <th className="border p-2 text-left">Status</th>
-              <th className="border p-2 text-left">Kondisi</th>
+              <th className="border p-2 text-left">Lokasi</th>
+              <th className="border p-2 text-left">Tools Keeper</th>
               <th className="border p-2 text-left">Action</th>
             </tr>
             <tr>

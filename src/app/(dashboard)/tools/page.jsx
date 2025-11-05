@@ -93,13 +93,21 @@ export default function ToolsPage() {
     <div className="text-black bg-white p-4 rounded-xl shadow min-h-full">
       <h1 className="text-2xl font-bold mb-4">Stok Tools Room</h1>
 
+      <div className="space-x-3">
 
        <Link
         href="/tools/add"
         className="mb-4 inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-      >
+        >
         ➕ Tambah Tools
       </Link>
+       <Link
+        href="/tools/broken"
+        className="mb-4 inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        >
+        ➕ Tambah Tools Rusak
+      </Link>
+        </div>
 
       {/* Bagian tabel daftar tools */}
        {loading ? (

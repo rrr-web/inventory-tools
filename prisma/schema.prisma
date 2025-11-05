@@ -21,6 +21,7 @@ model Borrow {
   returnDate  DateTime?
   status      String   @default("Open")
   location    String
+  tools_keeper String
   createdAt   DateTime @default(now())
 }
 
@@ -33,6 +34,21 @@ model Stock_ToolRoom {
   quantity   Int
   location   String
   createdAt  DateTime @default(now())
+
+  brokenLogs toolBroken[]
+}
+
+model toolBroken {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  toolId      String    @db.ObjectId
+  toolName    String
+  quantity    Int
+  brokenDate  DateTime  @default(now())
+  reportedBy  String
+  description String?
+  status      String    @default("Reported")
+
+  tool        Stock_ToolRoom @relation(fields: [toolId], references: [id])
 }
 
 model stock_warehouse {

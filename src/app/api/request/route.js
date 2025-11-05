@@ -6,7 +6,7 @@ export async function GET(req) {
     const requests = await prisma.request_tool.findMany({
       orderBy: { createdAt: 'desc' },
     });
-    return NextResponse.json({ success: true, data: requests });
+    return NextResponse.json(requests);
   } catch (error) {
     console.error("❌ API Error:", error);
     return NextResponse.json(
