@@ -21,7 +21,6 @@ export default function WarehouseAddPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       })
-      console.log(form);
       if (!res.ok) throw new Error("Gagal menambah data")
       alert("✅ Data alat berhasil ditambahkan!")
 

@@ -32,6 +32,7 @@ export async function POST(request) {
         borrowDate: new Date(body.borrowDate),
         status: "Open",
         location: body.location,
+        tools_keeper: body.toolsKeeper,
       },
     })
 

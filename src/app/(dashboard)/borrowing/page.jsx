@@ -8,9 +8,13 @@ export default function BorrowPage() {
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({
+    toolName: "",
+    borrower: "",
+    borrowDate: "",
+    location: "",
     status: "",
     returnDate: "",
-    condition: "",
+    toolsKeeper: "",
   });
 
   // Ambil data dari API
@@ -127,7 +131,7 @@ export default function BorrowPage() {
               <th className="border p-2 text-left">Action</th>
             </tr>
             <tr>
-              <th className="border p-2" colSpan="8">
+              <th className="border p-2" colSpan="10">
                 Tidak ada data peminjaman.
               </th>
             </tr>
@@ -146,6 +150,7 @@ export default function BorrowPage() {
               <th className="border p-2 text-left">Tanggal Kembali</th>
               <th className="border p-2 text-left">Status</th>
               <th className="border p-2 text-left">Lokasi</th>
+              <th className="border p-2 text-left">Tools Keeper</th>
               <th className="border p-2 text-left">Action</th>
             </tr>
           </thead>
@@ -214,6 +219,28 @@ export default function BorrowPage() {
                     b.location
                   )}
                 </td>
+
+                {/* Kolom Tools Keeper */}
+                <td className="border p-2">
+                  {editingId === b.id ? (
+                    <select
+                      name="toolsKeeper"
+                      value={editData.toolsKeeper}
+                      onChange={handleChange}
+                      className="border p-1 rounded"
+                    >
+                      <option value="" disabled>
+                        Pilih Tools Keeper
+                      </option>
+                      <option value="John Doe">John Doe</option>
+                      <option value="Jane Smith">Jane Smith</option>
+                      <option value="Mike Johnson">Mike Johnson</option>
+                    </select>
+                  ) : (
+                    b.tools_keeper
+                  )}
+                </td>
+
 
                 {/* Tombol Aksi */}
                 <td className="border p-2">

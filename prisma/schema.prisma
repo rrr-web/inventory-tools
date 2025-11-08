@@ -25,42 +25,53 @@ model Borrow {
   createdAt   DateTime @default(now())
 }
 
-model Stock_ToolRoom {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  toolName   String
-  brand      String?
-  PN         String?
-  spec       String?
-  quantity   Int
-  location   String
-  createdAt  DateTime @default(now())
+model stock_toolRoom {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  toolName    String
+  brand       String?
+  PN          String?
+  spec        String?
+  quantity    Int
+  location    String
+  createdAt   DateTime      @default(now())
 
-  brokenLogs toolBroken[]
+  // 🔹 Relasi ke ToolBroken
+  brokenLogs  toolBroken[]
+
+  // 🔹 Relasi ke StockWarehouse (1-to-many)
+  warehouseItems stock_warehouse[]
 }
 
 model toolBroken {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  toolId      String    @db.ObjectId
-  toolName    String
-  quantity    Int
-  brokenDate  DateTime  @default(now())
-  reportedBy  String
-  description String?
-  status      String    @default("Reported")
+  id           String          @id @default(auto()) @map("_id") @db.ObjectId
+  toolId       String          @db.ObjectId
+  toolName     String
+  quantity     Int
+  brokenDate   DateTime        @default(now())
+  reportedBy   String
+  description  String?
+  status       String          @default("Reported")
+  createdAt    DateTime        @default(now())
 
-  tool        Stock_ToolRoom @relation(fields: [toolId], references: [id])
+  // 🔹 Relasi ke Stock_ToolRoom
+  tool         stock_toolRoom  @relation(fields: [toolId], references: [id])
 }
 
 model stock_warehouse {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  toolName   String
-  brand      String?
-  PN         String?
-  spec       String?
-  quantity   Int
-  location   String
-  createdAt  DateTime @default(now())
+  id           String          @id @default(auto()) @map("_id") @db.ObjectId
+  toolRoomId   String?         @db.ObjectId
+  toolName     String
+  brand        String?
+  PN           String?
+  spec         String?
+  quantity     Int
+  location     String
+  createdAt    DateTime        @default(now())
+
+  // 🔹 Relasi ke Stock_ToolRoom
+  toolRoom     stock_toolRoom? @relation(fields: [toolRoomId], references: [id])
 }
+
 
 model request_tool {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId

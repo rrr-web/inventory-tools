@@ -6,7 +6,7 @@ export async function GET(req) {
     const { searchParams } = new URL(req.url)
     const q = searchParams.get("q") || ""
 
-    const tools = await prisma.stock_toolRoom.findMany({
+    const tools = await prisma.stock_warehouse.findMany({
       where: {
         toolName: { contains: q, mode: "insensitive" },
       },
@@ -16,7 +16,7 @@ export async function GET(req) {
         brand: true,
         PN: true,
         quantity: true,
-        location: true,
+        spec: true,
       },
       take: 10,
     })

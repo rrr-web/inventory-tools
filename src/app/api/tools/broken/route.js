@@ -16,7 +16,7 @@ export async function POST(req) {
     }
 
     // Ambil stok alat
-    const tool = await prisma.stock_ToolRoom.findUnique({
+    const tool = await prisma.stock_toolRoom.findUnique({
       where: { id: toolId },
     });
 
@@ -35,7 +35,7 @@ export async function POST(req) {
     }
 
     // 1️⃣ Kurangi stok
-    await prisma.stock_ToolRoom.update({
+    await prisma.stock_toolRoom.update({
       where: { id: toolId },
       data: {
         quantity: { decrement: quantity },

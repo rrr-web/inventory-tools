@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma"
 // GET: Ambil semua data tools
 export async function GET() {
   try {
-    const tools = await prisma.stock_ToolRoom.findMany({
+    const tools = await prisma.stock_toolRoom.findMany({
       orderBy: { createdAt: "desc" },
     });
 
@@ -20,24 +20,63 @@ export async function GET() {
 
 
 // POST: Tambah data stovk tools
-export async function POST(request) {
+export async function POST(req) {
   try {
-    const body = await request.json()
+    const body = await req.json();
+    const { toolId, toolName, brand, spec, PN, quantity, location } = body;
 
-    const tools = await prisma.stock_ToolRoom.create({
+    if (!toolId || !quantity || !location) {
+      return NextResponse.json(
+        { error: "Semua field harus diisi" },
+        { status: 400 }
+      );
+    }
+
+    // 🔍 Cari tool dari warehouse
+    const tool = await prisma.stock_warehouse.findUnique({
+      where: { id: toolId },
+    });
+
+    if (!tool) {
+      return NextResponse.json(
+        { error: "Alat tidak ditemukan" },
+        { status: 404 }
+      );
+    }
+
+    if (tool.quantity < quantity) {
+      return NextResponse.json(
+        { error: `Stok tidak cukup. Stok tersedia: ${tool.quantity}` },
+        { status: 400 }
+      );
+    }
+
+    // 🔽 Kurangi stok di warehouse
+    await prisma.stock_warehouse.update({
+      where: { id: toolId },
       data: {
-        toolName: body.toolName,
-        brand: body.brand,
-        PN: body.PN,
-        spec: body.spec,
-        quantity: Number(body.quantity),
-        location: body.location,
+        quantity: { decrement: quantity },
       },
-    })
+    });
 
-    return NextResponse.json(tools)
+    // ➕ Tambahkan ke stok toolroom
+    const add = await prisma.stock_toolRoom.create({
+      data: {
+        toolName,
+        brand,
+        PN,
+        spec,
+        quantity,
+        location,
+      },
+    });
+
+    return NextResponse.json({ success: true, data: add }, { status: 201 });
   } catch (error) {
-    console.error("Error POST /api/tools:", error)
-    return NextResponse.json({ error: "Gagal menambah data" }, { status: 500 })
+    console.error("❌ POST /add tools error:", error);
+    return NextResponse.json(
+      { error: "Gagal mencatat penambahan alat" },
+      { status: 500 }
+    );
   }
 }

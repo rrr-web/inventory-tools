@@ -9,7 +9,7 @@ export async function PATCH(req, context) {
   const { toolName, brand, PN, spec, quantity, location } = body;
 
   try {
-    const updated = await prisma.stock_ToolRoom.update({
+    const updated = await prisma.stock_toolRoom.update({
       where: { id }, 
       data: {
         ...(toolName && { toolName }),
@@ -33,7 +33,7 @@ export async function DELETE(req, context) {
   const { id } = await context.params;
 
   try {
-    const deleted = await prisma.stock_ToolRoom.delete({
+    const deleted = await prisma.stock_toolRoom.delete({
       where: { id }, 
     });
 

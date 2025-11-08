@@ -10,6 +10,7 @@ export default function AddBorrowPage() {
     borrowDate: "",
     returnDate: "",
     location: "",
+    toolsKeeper: "",
   })
 
   async function handleSubmit(e) {
@@ -52,18 +53,6 @@ export default function AddBorrowPage() {
             />
           </div>
 
-          {/* Input Jumlah */}
-          {/* <div>
-            <label className="block text-sm font-medium mb-1">Jumlah</label>
-            <input
-              type="number"
-              placeholder="Masukkan jumlah"
-              className="w-full border border-gray-300 p-2 rounded focus:outline-blue-500"
-              value={form.quantity}
-              onChange={(e) => setForm({ ...form, quantity: e.target.value })}
-              required
-            />
-          </div> */}
 
           {/* Input Nama Peminjam */}
           <div>
@@ -90,6 +79,23 @@ export default function AddBorrowPage() {
             />
           </div>
 
+          {/* Input toolsKeeper */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Tools Keeper</label>
+            <select
+              className="w-full border border-gray-300 p-2 rounded focus:outline-blue-500"
+              value={form.toolsKeeper}
+              onChange={(e) => setForm({ ...form, toolsKeeper: e.target.value })}
+              required
+            >
+              <option value="" disabled>Pilih Tools Keeper</option>
+              <option value="John Doe">John Doe</option>
+              <option value="Jane Smith">Jane Smith</option>
+              <option value="Mike Johnson">Mike Johnson</option>
+            </select>
+          </div>
+
+              
           {/* Input Lokasi */}  
           <div>
             <label className="block text-sm font-medium mb-1">Lokasi</label>
@@ -106,18 +112,6 @@ export default function AddBorrowPage() {
               <option value="WS KLAWAS">WS KLAWAS</option>
             </select>
           </div>
-
-          {/* Input Tanggal Kembali */}
-          {/* <div>
-            <label className="block text-sm font-medium mb-1">Tanggal Kembali</label>
-            <input
-              type="date"
-              className="w-full border border-gray-300 p-2 rounded focus:outline-blue-500"
-              value={form.returnDate}
-              onChange={(e) => setForm({ ...form, returnDate: e.target.value })}
-              required
-            />
-          </div> */}
 
           {/* Tombol Simpan & Kembali */}
           <div className="flex justify-between items-center pt-4">

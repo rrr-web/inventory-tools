@@ -1,123 +1,183 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function AddToolPage() {
-    const router = useRouter()
-    const [form, setForm] = useState({
-      toolName: "",
-      brand: "",
-      PN: "",
-      spec: "",
-      quantity: 0,
-      location: "",
-    });
+  const router = useRouter();
 
-    async function handleSubmit(e) {
-    e.preventDefault()
+  const [search, setSearch] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [selectedTool, setSelectedTool] = useState(null);
+
+  const [form, setForm] = useState({
+    quantity: 1,
+    location: "",
+  });
+
+  // 🔍 Ambil data tools dari warehouse sesuai pencarian
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      if (search.length < 2) return setSuggestions([]);
+      const res = await fetch(`/api/warehouse/search?q=${encodeURIComponent(search)}`);
+      const data = await res.json();
+      setSuggestions(data);
+    };
+
+    const timeout = setTimeout(fetchSuggestions, 300);
+    return () => clearTimeout(timeout);
+  }, [search]);
+
+  // Saat user memilih tool dari list
+  const handleSelectTool = (tool) => {
+    setSelectedTool(tool);
+    setSearch(tool.toolName);
+    setSuggestions([]);
+  };
+
+  // Untuk update field quantity dan location
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // 🧩 Fungsi simpan data ke API
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!selectedTool) return alert("Pilih alat terlebih dahulu");
+
     try {
       const res = await fetch("/api/tools", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      })
-      console.log(form);
-      if (!res.ok) throw new Error("Gagal menambah data")
-      alert("✅ Data alat berhasil ditambahkan!")
+        body: JSON.stringify({
+          toolId: selectedTool.id,
+          toolName: selectedTool.toolName,
+          brand: selectedTool.brand || "",
+          spec: selectedTool.spec || "",
+          PN: selectedTool.PN || "",
+          quantity: Number(form.quantity),
+          location: form.location,
+        }),
+      });
 
-      router.push("/tools")
+      const data = await res.json();
+      console.log("Response:", data);
+
+      if (!res.ok || !data.success) throw new Error(data.error || "Gagal menambah data");
+      alert("✅ Data alat berhasil ditambahkan!");
+
+      router.push("/tools");
     } catch (error) {
-      console.error(error)
-      alert("❌ Terjadi kesalahan saat menyimpan data.")
+      console.error("❌ Error:", error);
+      alert("❌ Terjadi kesalahan saat menyimpan data.");
     }
   }
 
   return (
-     <div className="min-h-screen bg-gray-50 flex items-center justify-center text-black">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center text-black">
       <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-lg">
         <h1 className="text-2xl font-bold text-center mb-6">
           📦 Tambah Stock Tools Room
         </h1>
 
-         <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
 
-          {/* Input Nama Tools */}
-          <div>
+          {/* 🔍 Input Nama Tools */}
+          <div className="relative">
             <label className="block text-sm font-medium mb-1">Nama Tools</label>
             <input
               type="text"
               placeholder="Masukkan nama tools"
               className="w-full border border-gray-300 p-2 rounded focus:outline-blue-500"
-              value={form.toolName}
-              onChange={(e) => setForm({ ...form, toolName: e.target.value })}
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setSelectedTool(null);
+              }}
               required
             />
+
+            {/* Dropdown hasil pencarian */}
+            {!selectedTool && suggestions.length > 0 && (
+              <ul className="absolute z-10 bg-white border w-full rounded shadow max-h-40 overflow-y-auto">
+                {suggestions.map((tool) => (
+                  <li
+                    key={tool.id}
+                    onClick={() => handleSelectTool(tool)}
+                    className="p-2 hover:bg-blue-100 cursor-pointer"
+                  >
+                    {tool.toolName} {tool.brand ? `- ${tool.brand}` : ""}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
-          
-          {/* Input Brand */}
+
+          {/* Brand */}
           <div>
             <label className="block text-sm font-medium mb-1">Brand</label>
             <input
-              type="text"
-              placeholder="Masukkan brand"
-              className="w-full border border-gray-300 p-2 rounded focus:outline-blue-500"
-              value={form.brand}
-              onChange={(e) => setForm({ ...form, brand: e.target.value })}
-              
+              readOnly
+              className="w-full border p-2 rounded bg-gray-100"
+              value={selectedTool?.brand || ""}
             />
           </div>
 
-          {/* Input PN */}
+          {/* PN */}
           <div>
             <label className="block text-sm font-medium mb-1">Part Number (PN)</label>
             <input
-              type="text"
-              placeholder="Masukkan part number"
-              className="w-full border border-gray-300 p-2 rounded focus:outline-blue-500"
-              value={form.PN}
-              onChange={(e) => setForm({ ...form, PN: e.target.value })}
-              
+              readOnly
+              className="w-full border p-2 rounded bg-gray-100"
+              value={selectedTool?.PN || ""}
             />
           </div>
 
-          {/* Input Spesifikasi */}
+          {/* Spec */}
           <div>
             <label className="block text-sm font-medium mb-1">Spesifikasi</label>
             <textarea
-              placeholder="Masukkan spesifikasi"
-              className="w-full border border-gray-300 p-2 rounded focus:outline-blue-500"
-              value={form.spec}
-              onChange={(e) => setForm({ ...form, spec: e.target.value })}
-              
+              readOnly
+              className="w-full border p-2 rounded bg-gray-100"
+              value={selectedTool?.spec || ""}
             />
           </div>
 
-          {/* Input Quantity */}
+          {/* Quantity */}
           <div>
             <label className="block text-sm font-medium mb-1">Jumlah</label>
             <input
+              name="quantity"
               type="number"
-              placeholder="Masukkan Jumlah"
+              min={1}
+              placeholder="Masukkan jumlah"
               className="w-full border border-gray-300 p-2 rounded focus:outline-blue-500"
               value={form.quantity}
-              onChange={(e) => setForm({ ...form, quantity: parseInt(e.target.value)  })}
+              onChange={handleChange}
               required
             />
           </div>
 
-          {/* Input Location */}
+          {/* Lokasi */}
           <div>
             <label className="block text-sm font-medium mb-1">Lokasi</label>
-            <select name="location" id="location" className="w-full border border-gray-300 p-2 rounded focus:outline-blue-500"
+            <select
+              name="location"
+              className="w-full border border-gray-300 p-2 rounded focus:outline-blue-500"
               value={form.location}
-              onChange={(e) => setForm({ ...form, location: e.target.value })} required
+              onChange={handleChange}
+              required
             >
-              <option value="" disabled>Pilih lokasi</option>
+              <option value="" disabled>
+                Pilih lokasi
+              </option>
               <option value="Gudang">Gudang</option>
               <option value="Tools Room">Tools Room</option>
             </select>
           </div>
 
+          {/* Tombol Aksi */}
           <div className="flex justify-between items-center pt-4">
             <button
               type="button"
@@ -134,8 +194,7 @@ export default function AddToolPage() {
             </button>
           </div>
         </form>
-
-        </div>
       </div>
-  )
+    </div>
+  );
 }
