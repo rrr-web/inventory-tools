@@ -4,6 +4,7 @@ import LowStockWidget from "@/component/tableLowStock/lowStock";
 
 export default function DashboardPage() {
   return (
+    <>
       <div className="text-black">
         <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
         {/* Cards */}
@@ -24,9 +25,9 @@ export default function DashboardPage() {
           </div>
         </div>
         {/* Tables */}
-        <LowStockWidget />
+        {/* <LowStockWidget /> */}
         <TableRequest />
       </div>
-    
+      </>
   )
 }
