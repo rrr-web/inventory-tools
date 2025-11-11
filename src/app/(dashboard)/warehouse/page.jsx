@@ -21,7 +21,7 @@ export default function WarehousePage() {
       setLoading(true)
       const response = await fetch("/api/warehouse")
       const data = await response.json()
-      setTools(data)
+      setTools(data.data)
       setLoading(false)
     }
 
