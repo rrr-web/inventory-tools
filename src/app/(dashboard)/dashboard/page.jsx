@@ -1,5 +1,5 @@
-import TableRequest from "@/component/request/TableRequest";
-import LowStockWidget from "@/component/tableLowStock/lowStock";
+import TableRequest from "@/components/request/TableRequest";
+import LowStockWidget from "@/components/tableLowStock/LowStockWidget";
 
 
 export default function DashboardPage() {
@@ -25,7 +25,7 @@ export default function DashboardPage() {
           </div>
         </div>
         {/* Tables */}
-        {/* <LowStockWidget /> */}
+        <LowStockWidget />
         <TableRequest />
       </div>
       </>
