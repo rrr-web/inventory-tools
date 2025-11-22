@@ -27,19 +27,19 @@ model Borrow {
 
 model stock_toolRoom {
   id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  toolId      String        @db.ObjectId
   toolName    String
   brand       String?
   PN          String?
   spec        String?
   quantity    Int
-  location    String
   createdAt   DateTime      @default(now())
 
-  // 🔹 Relasi ke ToolBroken
+  // Relasi ke ToolBroken
   brokenLogs  toolBroken[]
 
-  // 🔹 Relasi ke StockWarehouse (1-to-many)
-  warehouseItems stock_warehouse[]
+  // Relasi ke StockWarehouse (1-to-many)
+  warehouseItems stock_warehouse? @relation(fields: [toolId], references: [id])
 }
 
 model toolBroken {
@@ -53,13 +53,12 @@ model toolBroken {
   status       String          @default("Reported")
   createdAt    DateTime        @default(now())
 
-  // 🔹 Relasi ke Stock_ToolRoom
-  tool         stock_toolRoom  @relation(fields: [toolId], references: [id])
+  // Relasi ke Stock_ToolRoom
+  tool         stock_toolRoom?  @relation(fields: [toolId], references: [id])
 }
 
 model stock_warehouse {
   id           String          @id @default(auto()) @map("_id") @db.ObjectId
-  toolRoomId   String?         @db.ObjectId
   toolName     String
   brand        String?
   PN           String?
@@ -68,8 +67,8 @@ model stock_warehouse {
   location     String
   createdAt    DateTime        @default(now())
 
-  // 🔹 Relasi ke Stock_ToolRoom
-  toolRoom     stock_toolRoom? @relation(fields: [toolRoomId], references: [id])
+  // Relasi ke Stock_ToolRoom
+  toolRoom     stock_toolRoom[]
 }
 
 
@@ -78,7 +77,7 @@ model request_tool {
   toolName    String
   quantity    Int
   requester   String
-  merk        String?
+  brand       String?
   spec        String?
   PN          String?
   price       Int?
@@ -89,3 +88,24 @@ model request_tool {
   status      String   @default("Open")
   createdAt   DateTime @default(now())
 }
+
+model StockHistory {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  toolName     String
+  quantityChange     Int
+  PN String
+  brand String
+  spec String
+  action       String   // "WAREHOUSE_DECREASE", "TOOLROOM_INCREASE"
+  source       String   // "warehouse", "toolroom"
+  description  String?
+  createdAt    DateTime @default(now())
+}
+
+model user{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  userName String
+  password String
+}
+

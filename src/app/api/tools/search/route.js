@@ -16,7 +16,6 @@ export async function GET(req) {
         brand: true,
         PN: true,
         quantity: true,
-        location: true,
       },
       take: 10,
     })

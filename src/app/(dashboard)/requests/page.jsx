@@ -1,16 +1,17 @@
 "use client";
+import Table from "@/components/table/Table";
+import { getData } from "@/lib/data";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function RequestsPage() {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null) 
   const [editData, setEditData] = useState({ 
     toolName: "", 
     quantity: "",
     requester: "",
-    merk: "",
+    brand: "",
     spec: "",
     PN: "",
     price: "",
@@ -23,11 +24,13 @@ export default function RequestsPage() {
 
   useEffect(() => {
     const fetchRequests = async () => {
-      setLoading(true)
-      const response = await fetch("/api/request")
-      const data = await response.json()
-      setData(data)
-      setLoading(false)
+      try{
+      const result = await getData('api/request')
+      setData(result)
+      }catch(err){
+        console.log(err);
+        
+      }
     }
 
     fetchRequests()
@@ -39,7 +42,7 @@ export default function RequestsPage() {
       toolName: b.toolName || "",
       quantity: b.quantity || "",
       requester: b.requester || "",
-      merk: b.merk || "",
+      brand: b.brand || "",
       spec: b.spec || "",
       PN: b.PN || "",
       price: b.price || "",
@@ -65,7 +68,7 @@ export default function RequestsPage() {
           toolName: editData.toolName,
           quantity: editData.quantity,
           requester: editData.requester,
-          merk: editData.merk,
+          brand: editData.brand,
           spec: editData.spec,
           PN: editData.PN,
           price: editData.price,
@@ -104,307 +107,22 @@ const handleDelete = async (id) => {
     }
   }
 
+   const columns = [
+    { key: "toolName", label: "Nama Tools" },
+    { key: "quantity", label: "Jumlah" },
+    { key: "spec", label: "spec" },
+    { key: "PN", label: "PN" },
+    { key: "brand", label: "Brand" },
+    { key: "price", label: "Harga" },
+    { key: "requester", label: "Peminta" },
+    { key: "location", label: "Lokasi Kerja" },
+    { key: "reference", label: "Referensi" },
+    { key: "status", label: "Status" },
+    { key: "createdAt", label: "Tanggal Req" }
+
+  ];
+
   return (
-    <div className="text-black bg-white p-4 rounded-xl shadow min-h-full">
-      <h1 className="text-2xl font-bold mb-4">Permintaan Tools Baru</h1>
-
-      {/* Tombol tambah permintaan */}
-      <Link href="/" className="mb-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-        ➕ Tambah Permintaan
-      </Link>
-
-      {/* Tabel daftar permintaan */}
-      {loading ? (
-        <p>Memuat data...</p>
-      ):( data.length === 0 ? (
-        <div className="bg-white p-4 rounded-xl drop-shadow-2xl min-h-fit">
-        <table className="min-w-full border border-gray-200">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="border p-2">No</th>
-              <th className="border p-2 text-left">Nama Tools</th>
-              <th className="border p-2 text-left">Merk</th>
-              <th className="border p-2 text-left">Spec</th>
-              <th className="border p-2 text-left">Jumlah</th>
-              <th className="border p-2 text-left">PN</th>
-              <th className="border p-2 text-left">Harga</th>
-              <th className="border p-2 text-left">Peminta</th>
-              <th className="border p-2 text-left">Tanggal Minta</th>
-              <th className="border p-2 text-left">Alasan</th>
-              <th className="border p-2 text-left">Lokasi Kerja</th>
-              <th className="border p-2 text-left">Referensi</th>
-              <th className="border p-2 text-left">Keterangan</th>
-              <th className="border p-2 text-left">Status</th>
-              <th className="border p-2 text-left">Action</th>
-            </tr>
-            <tr>
-              <th className="border p-2" colSpan="15">
-                Tidak ada data peminjaman.
-              </th>
-            </tr>
-          </thead>
-        </table>
-      </div>
-      ) : (
-          <div className="drop-shadow-2xl">
-          <div className="bg-white p-4 rounded-xl min-h-fit mt-4 inline-block">
-          <table className="min-w-max border border-gray-200 table-auto">
-            <thead className="bg-gray-100">
-            <tr>
-              <th className="border p-2">No</th>
-              <th className="border p-2 text-left">Nama Tools</th>
-              <th className="border p-2 text-left">Merk</th>
-              <th className="border p-2 text-left">Spec</th>
-              <th className="border p-2 text-left">Jumlah</th>
-              <th className="border p-2 text-left">PN</th>
-              <th className="border p-2 text-left">Harga</th>
-              <th className="border p-2 text-left">Peminta</th>
-              <th className="border p-2 text-left">Tanggal Minta</th>
-              <th className="border p-2 text-left">Alasan</th>
-              <th className="border p-2 text-left">Lokasi Kerja</th>
-              <th className="border p-2 text-left">Referensi</th>
-              <th className="border p-2 text-left">Keterangan</th>
-              <th className="border p-2 text-left">Status</th>
-              <th className="border p-2 text-left">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((request, i) => (
-              <tr key={request.id}>
-
-                <td className="border p-2">{i + 1}</td>
-
-                {/**Toolname */}
-                <td className="border p-2">
-                  {editingId === request.id ? (
-                    <input
-                      type="text"
-                      name="toolName"
-                      value={editData.toolName}
-                      onChange={handleChange}
-                      className="border p-1 rounded"
-                    />
-                  ) : (
-                    request.toolName
-                  )}
-                </td>
-
-                {/**Merk */}
-                <td className="border p-2">
-                  {editingId === request.id ? (
-                    <input
-                      type="text"
-                      name="merk"
-                      value={editData.merk}
-                      onChange={handleChange}
-                      className="border p-1 rounded"
-                    />
-                  ) : (
-                    request.merk
-                  )}
-                </td>
-
-                {/**Spec */}
-                <td className="border p-2">
-                  {editingId === request.id ? (
-                    <textarea
-                      type="text"
-                      name="spec"
-                      value={editData.spec}
-                      onChange={handleChange}
-                      className="border p-1 rounded"
-                    />
-                  ) : (
-                    request.spec
-                  )}
-                </td>
-
-                
-                  {/**Quantity */}
-                <td className="border p-2">
-                  {editingId === request.id ? (
-                    <input
-                      type="number"
-                      name="quantity"
-                      value={editData.quantity}
-                      onChange={handleChange}
-                      className="border p-1 rounded"
-                    />
-                  ) : (
-                    request.quantity
-                  )}
-                </td>
-                
-                {/**PN */}
-                <td className="border p-2">
-                  {editingId === request.id ? (
-                    <input
-                      type="text"
-                      name="PN"
-                      value={editData.PN}
-                      onChange={handleChange}
-                      className="border p-1 rounded"
-                    />
-                  ) : (
-                    request.PN
-                  )}
-                </td>
-
-                {/**Price */}
-                <td className="border p-2">
-                  {editingId === request.id ? (
-                    <input
-                      type="text"
-                      name="price"
-                      value={editData.price}
-                      onChange={handleChange}
-                      className="border p-1 rounded"
-                    />
-                  ) : (
-                    request.price
-                  )}
-                </td>
-
-                {/**Requester */}
-                <td className="border p-2">
-                  {editingId === request.id ? (
-                    <input
-                      type="text"
-                      name="requester"
-                      value={editData.requester}
-                      onChange={handleChange}
-                      className="border p-1 rounded"
-                    />
-                  ) : (
-                    request.requester
-                  )}
-                </td>
-
-                  {/**Tanggal minta */}
-                <td className="border p-2">{new Date(request.createdAt).toLocaleDateString("id-ID")}</td>
-                
-                {/**Reason */}
-                <td className="border p-2">
-                  {editingId === request.id ? (
-                    <input
-                      type="text"
-                      name="reason"
-                      value={editData.reason}
-                      onChange={handleChange}
-                      className="border p-1 rounded"
-                    />
-                  ) : (
-                    request.reason
-                  )}
-                </td>
-
-                {/**Location */}
-                <td className="border p-2">
-                  {editingId === request.id ? (
-                    <input
-                      type="text"
-                      name="location"
-                      value={editData.location}
-                      onChange={handleChange}
-                      className="border p-1 rounded"
-                    />
-                  ) : (
-                    request.location
-                  )}
-                </td>
-
-                {/**Reference */}
-                <td className="border p-2">
-                  {editingId === request.id ? (
-                    <input
-                      type="text"
-                      name="reference"
-                      value={editData.reference}
-                      onChange={handleChange}
-                      className="border p-1 rounded"
-                    />
-                  ) : (
-                    request.reference
-                  )}
-                </td>
-
-                {/**Note */}
-                <td className="border p-2">
-                  {editingId === request.id ? (
-                    <input
-                      type="text"
-                      name="note"
-                      value={editData.note}
-                      onChange={handleChange}
-                      className="border p-1 rounded"
-                    />
-                  ) : (
-                    request.note
-                  )}
-                </td>
-
-                {/**Status */}
-                <td className="border p-2">
-                  {editingId === request.id ? (
-                    <select
-                      name="status"
-                      value={editData.status}
-                      onChange={handleChange}
-                      className="border p-1 rounded"
-                    >
-                      <option value="" disabled>Pilih Status</option>
-                      <option value="Open">Open</option>
-                      <option value="Close">Close</option>
-                    </select>
-                  ) : (
-                    request.status
-                  )}
-                </td>
-
-                {/* Tombol Aksi */}
-                <td className="border p-2">
-                  {editingId === request.id ? (
-                    <>
-                      <button
-                        onClick={() => handleSave(request.id)}
-                        className="text-green-600 hover:underline mr-2"
-                      >
-                        Simpan
-                      </button>
-                      <span>|</span>
-                      <button
-                        onClick={() => setEditingId(null)}
-                        className="text-gray-600 hover:underline"
-                      >
-                        Batal
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        onClick={() => handleStartEdit(request)}
-                        className="text-blue-600 hover:underline mr-2"
-                      >
-                        Edit
-                      </button>
-                      <span>|</span>
-                      <button
-                        onClick={() => handleDelete(request.id)}
-                        className="text-red-600 hover:underline"
-                      >
-                        Hapus
-                      </button>
-                    </>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        </div>
-      </div>
-      )
-      )}
-    </div>
+    <Table data={data}  columns={columns}/>
   )
 }

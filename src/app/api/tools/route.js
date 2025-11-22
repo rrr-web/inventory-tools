@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server"
-import { prisma } from "@/lib/prisma"
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
-// GET: Ambil semua data tools
+// GET: Ambil semua data tools Room
 export async function GET() {
   try {
     const tools = await prisma.stock_toolRoom.findMany({
@@ -18,64 +18,123 @@ export async function GET() {
   }
 }
 
+// history
+async function addHistory({ toolName, brand, spec, PN, action, source, quantityChange, description }) {
+  return prisma.stockHistory.create({
+    data: {
+      toolName,
+      brand,
+      spec,
+      PN,
+      action,
+      source,
+      quantityChange,
+      description,
+    },
+  });
+}
 
-// POST: Tambah data stovk tools
+// stok ke Tools Room
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { toolId, toolName, brand, spec, PN, quantity, location } = body;
+    const { toolId, toolName, brand, spec, PN, quantity } = body;
 
-    if (!toolId || !quantity || !location) {
+    // VALIDASI
+    if (!toolId || !toolName || !quantity) {
       return NextResponse.json(
-        { error: "Semua field harus diisi" },
+        { error: "toolId, toolName dan quantity wajib diisi" },
         { status: 400 }
       );
     }
 
-    // 🔍 Cari tool dari warehouse
+    // stok dari warehouse
     const tool = await prisma.stock_warehouse.findUnique({
       where: { id: toolId },
     });
 
     if (!tool) {
       return NextResponse.json(
-        { error: "Alat tidak ditemukan" },
+        { error: "Alat tidak ditemukan di Warehouse" },
         { status: 404 }
       );
     }
 
     if (tool.quantity < quantity) {
       return NextResponse.json(
-        { error: `Stok tidak cukup. Stok tersedia: ${tool.quantity}` },
+        { error: `Stok tidak cukup. Tersedia: ${tool.quantity}` },
         { status: 400 }
       );
     }
 
-    // 🔽 Kurangi stok di warehouse
+    // kurangi stok dari warehouse
     await prisma.stock_warehouse.update({
       where: { id: toolId },
       data: {
-        quantity: { decrement: quantity },
+        quantity: { decrement: Number(quantity) },
       },
     });
 
-    // ➕ Tambahkan ke stok toolroom
-    const add = await prisma.stock_toolRoom.create({
-      data: {
-        toolName,
-        brand,
-        PN,
-        spec,
-        quantity,
-        location,
-      },
+    //  apakah tool sudah ada di Tools Room
+    const existingTool = await prisma.stock_toolRoom.findFirst({
+      where: { toolId },
     });
 
-    return NextResponse.json({ success: true, data: add }, { status: 201 });
-  } catch (error) {
-    console.error("❌ POST /add tools error:", error);
+    let result;
+
+    if (existingTool) {
+      result = await prisma.stock_toolRoom.update({
+        where: { id: existingTool.id },
+        data: {
+          quantity: { increment: Number(quantity) },
+        },
+      });
+    } else {
+      result = await prisma.stock_toolRoom.create({
+        data: {
+          toolId,
+          toolName,
+          brand,
+          spec,
+          PN,
+          quantity: Number(quantity),
+        },
+      });
+    }
+
+    // history pengeluaran gudang
+    await addHistory({
+      toolName,
+      brand,
+      spec,
+      PN,
+      source: "Gudang",
+      action: "OUT",
+      quantityChange: -Number(quantity),
+      description: "Tools keluar dari gudang",
+    });
+
+    // history penambahan tools room
+    await addHistory({
+      toolName,
+      brand,
+      spec,
+      PN,
+      source: "Tools Room",
+      action: "IN",
+      quantityChange: Number(quantity),
+      description: "Tools masuk ke Tools Room",
+    });
+
     return NextResponse.json(
-      { error: "Gagal mencatat penambahan alat" },
+      { success: true, data: result },
+      { status: 201 }
+    );
+
+  } catch (error) {
+    console.error("❌ POST /tools error:", error);
+    return NextResponse.json(
+      { error: "Gagal mencatat penambahan tools" },
       { status: 500 }
     );
   }

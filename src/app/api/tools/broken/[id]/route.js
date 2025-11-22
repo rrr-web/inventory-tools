@@ -2,22 +2,22 @@ import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
 
-// PATCH: Update data stock gudang
+
 export async function PATCH(req, context) {
   const { id } = await context.params; // 
   const body = await req.json();
-  const { toolName, brand, PN, spec, quantity, location } = body;
+  const { toolName, quantity, brokenDate,reportedBy,description,status  } = body;
 
   try {
-    const updated = await prisma.stock_warehouse.update({
+    const updated = await prisma.toolBroken.update({
       where: { id }, 
       data: {
         ...(toolName && { toolName }),
-        ...(brand && { brand }),
-        ...(PN && { PN }),
-        ...(spec && { spec }),
-        ...(location && { location }),
-        ...(quantity && { quantity: Number(quantity) }),
+        ...(quantity && { quantity }),
+        ...(reportedBy && { reportedBy }),
+        ...(description && { description }),
+        ...(brokenDate && { brokenDate: new Date(brokenDate) }),
+        ...(status && { status }),
       },
     });
 
@@ -28,13 +28,12 @@ export async function PATCH(req, context) {
   }
 }
 
-// DELETE: Hapus data stock gudang
 export async function DELETE(req, context) {
   const { id } = await context.params;
 
   try {
-    const deleted = await prisma.stock_warehouse.delete({
-      where: { id }, 
+    const deleted = await prisma.toolBroken.delete({
+      where: { id }, // Prisma otomatis pakai String id (karena di schema sudah pakai @map("_id"))
     });
 
     return NextResponse.json({

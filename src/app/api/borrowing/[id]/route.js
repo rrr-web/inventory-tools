@@ -6,15 +6,19 @@ import { prisma } from "@/lib/prisma"
 export async function PATCH(req, context) {
   const { id } = await context.params; // 
   const body = await req.json();
-  const { status, returnDate, location } = body;
+  const { toolName,borrower,borrowDate,status, returnDate, location, tools_keeper } = body;
 
   try {
     const updated = await prisma.borrow.update({
       where: { id }, 
       data: {
+        ...(toolName && { toolName }),
+        ...(borrower && { borrower }),
+        ...(borrowDate && { borrowDate }),
         ...(status && { status }),
         ...(location && { location }),
         ...(returnDate && { returnDate: new Date(returnDate) }),
+        ...(tools_keeper && { tools_keeper }),
       },
     });
 

@@ -1,5 +1,6 @@
-import TableRequest from "@/components/request/TableRequest";
-import LowStockWidget from "@/components/tableLowStock/LowStockWidget";
+import LowStockWidget from "./LowStockWidget";
+import TableRequest from "./TableRequest";
+
 
 
 export default function DashboardPage() {
@@ -8,7 +9,7 @@ export default function DashboardPage() {
       <div className="text-black">
         <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 sm:min-wit-full">
           <div className="bg-white shadow-md rounded-lg p-4">
             <h2 className="text-lg font-semibold mb-2">Total Tools</h2>
             <p className="text-2xl font-bold text-blue-600">128</p>
@@ -25,7 +26,11 @@ export default function DashboardPage() {
           </div>
         </div>
         {/* Tables */}
+      </div>
+      <div className="md:min-h-fit">
+        <div className="mb-4">
         <LowStockWidget />
+        </div>
         <TableRequest />
       </div>
       </>

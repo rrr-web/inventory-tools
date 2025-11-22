@@ -55,8 +55,8 @@ export async function POST(request) {
         brand: body.brand,
         PN: body.PN,
         spec: body.spec,
-        quantity: Number(body.quantity),
         location: body.location,
+        quantity: Number(body.quantity),
       },
     })
 

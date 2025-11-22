@@ -19,7 +19,7 @@ export async function POST(req) {
         toolName: body.toolName,
         quantity: Number(body.quantity),
         requester: body.requester,
-        merk: body.merk || "N/A",
+        brand: body.brand || "N/A",
         spec: body.spec || "N/A",
         PN: body.PN || "N/A",
         price: Number(body.price) || 0,

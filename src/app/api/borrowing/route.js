@@ -2,10 +2,17 @@ import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
 // GET: Ambil semua data peminjaman open
-export async function GET() {
+export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const status = searchParams.get('status');
+
+   const where = status
+      ? { status: status === "open" ? "Open" : "Close" }
+      : {}; 
+
   try {
     const borrows = await prisma.borrow.findMany({
-      where: { status: "Open" },
+      where,
       orderBy: { createdAt: "desc" },
     });
 
@@ -32,7 +39,7 @@ export async function POST(request) {
         borrowDate: new Date(body.borrowDate),
         status: "Open",
         location: body.location,
-        tools_keeper: body.toolsKeeper,
+        tools_keeper: body.tools_keeper,
       },
     })
 

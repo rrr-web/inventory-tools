@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma"
 export async function PATCH(req, context) {
   const { id } = await context.params; // 
   const body = await req.json();
-  const { toolName, brand, PN, spec, quantity, location } = body;
+  const { toolName, brand, PN, spec, quantity} = body;
 
   try {
     const updated = await prisma.stock_toolRoom.update({
@@ -16,8 +16,7 @@ export async function PATCH(req, context) {
         ...(brand && { brand }),
         ...(PN && { PN }),
         ...(spec && { spec }),
-        ...(quantity && { quantity: Number(quantity) }),
-        ...(location && { location }),
+        ...(quantity && { quantity: Number(quantity) })
       },
     });
 

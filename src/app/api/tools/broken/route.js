@@ -7,8 +7,6 @@ export async function POST(req) {
     const { toolId, toolName, quantity, reportedBy, description, brokenDate } = body;
 
     if (!toolId || !quantity || !reportedBy || !brokenDate) {
-        console.log(toolId, quantity, reportedBy, description, brokenDate);
-        
       return NextResponse.json(
         { error: "Semua field harus diisi" },
         { status: 400 }
@@ -75,10 +73,7 @@ export async function GET() {
      
     });
 
-    return NextResponse.json(
-      { success: true, data: brokenTools },
-      { status: 200 }
-    );
+    return NextResponse.json(brokenTools)
   } catch (error) {
     console.error("❌ GET /broken error:", error);
     return NextResponse.json(
