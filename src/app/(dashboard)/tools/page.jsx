@@ -16,7 +16,7 @@ export default function ToolsPage() {
     { id: "tambah-tools", label: "Tambah Tools" },
     { id: "tools-rusak", label: "Tambah Tools Rusak" },
     { id: "data-rusak", label: "Tools Rusak" },
-    // { id: "tools-masuk", label: "Tools Masuk" },
+    { id: "tools-masuk", label: "Tools Masuk" }
   ];
   return(
     <>
@@ -31,7 +31,7 @@ export default function ToolsPage() {
               {activeTab === "tambah-tools" && <AddTools />}
               {activeTab === "tools-rusak" && <ToolBroken />}
               {activeTab === "data-rusak" && <HistoryToolsBroken />}
-              {/* {activeTab === "tools-masuk" && <IncomingTools />} */}
+              {activeTab === "tools-masuk" && <IncomingTools />}
             </div>
           </div>
     </>
