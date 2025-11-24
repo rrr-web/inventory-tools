@@ -2,7 +2,7 @@ import { CheckIcon, PencilIcon, TrashIcon, XMarkIcon } from "@heroicons/react/16
 import { renderInput } from "@/lib/renderInput";
 import useEditableTable from "@/hooks/useEditableTable";
 
-export default function Table({ columns, data, onSave, onDelete }) {
+export default function Table({ columns, data, onSave, onDelete, enableAction }) {
  
    const {
     editingId,
@@ -33,9 +33,11 @@ export default function Table({ columns, data, onSave, onDelete }) {
                   {col.label}
                 </th>
               ))}
+              {enableAction && (
               <th className="px-6 py-4 text-left text-sm font-semibold ">
                 Aksi
               </th>
+              )}
             </tr>
           </thead>
           <tbody className="divide-y divide-table-border">
@@ -69,6 +71,7 @@ export default function Table({ columns, data, onSave, onDelete }) {
                       )}
                     </td>
                   ))}
+                    {enableAction && (
                   <td className="px-6 py-4 text-sm">
                     {editingId === item.id ? (
                       <div className="flex gap-2">
@@ -110,6 +113,7 @@ export default function Table({ columns, data, onSave, onDelete }) {
                       </div>
                     )}
                   </td>
+                    )}
                 </tr>
               ))
             )}

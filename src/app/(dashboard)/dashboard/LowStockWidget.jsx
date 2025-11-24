@@ -35,6 +35,7 @@ export default function LowStockWidget() {
           { key: "PN", label: "PN" },
           { key: "quantity", label: "Jumlah" },
         ]}
+        enableAction={false}
       />
     </div>
   );

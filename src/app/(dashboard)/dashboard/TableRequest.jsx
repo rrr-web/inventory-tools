@@ -34,6 +34,7 @@ export default function TableRequest() {
           { key: "requester", label: "Peminta" },
           { key: "status", label: "Status" },
         ]}
+        enableAction={false}
       />
     </div>
   );

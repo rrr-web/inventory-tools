@@ -1,83 +1,94 @@
-"use client";
 
+
+import Table from "@/components/table/Table";
 import { getData } from "@/lib/data";
-import { CheckIcon, PencilIcon, TrashIcon, XMarkIcon } from "@heroicons/react/16/solid";
+import { validateApiData } from "@/lib/formatDate";
 import { useEffect, useState } from "react";
 
 export default function DataBorrow() {
     const [borrowData, setBorrowData] = useState([]);
-    const [editingId, setEditingId] = useState(null);
-    const [editData, setEditData] = useState({
-        toolName: "",
-        borrower: "",
-        borrowDate: "",
-        returnDate: "",
-        location: "",
-        status: "",
-        tools_keeper: "",
-    });
+    
 
      const columns = [
-    { key: "toolName", label: "Nama Tools" },
-    { key: "borrower", label: "Peminjam" },
-    { key: "borrowDate", label: "Tanggal Pinjam" },
-    { key: "returnDate", label: "Tanggal Kembali" },
-    { key: "location", label: "Lokasi" },
-    { key: "status", label: "Status" },
-    { key: "toolsKeeper", label: "Tools Keeper" },
+    {
+      key: "toolName",
+      label: "Nama Tool",
+      type: "text",
+      validation: { required: true, min: 3, max: 100 }
+    },
+    { key: "borrower",
+      label: "Peminjam",type: "text", 
+      validation :{required: true, min:2, max:100} },
+    { key: "borrowDate", 
+      label: "Tanggal Pinjam",
+      type:"date",
+      validation :{required: true} },
+    { key: "returnDate", 
+      label: "Tanggal Kembali",
+      type:"date",
+      validation :{required: true} },
+    { key: "location", 
+      label: "Lokasi",
+      type: "select",
+      options: [
+        {value:"MSF", label:"MSF"},
+        {value:"AST & Kamaz", label:"AST & Kamaz"},
+        {value:"WS Tyre", label:"WS Tyre"},
+        {value:"WS Klawas", label:"WS Klawas"},
+      ],
+      validation: {required : true} },
+    { key: "status", 
+      label: "Status",
+      type: "select",
+      options:[
+        {value:"Open", label:"Open"},
+        {value:"Close", label:"Close"}
+      ],
+    validation: {required : true} },
+    { key: "tools_keeper", 
+      label: "Tools Keeper",
+      type: "select",
+      options:[
+        {value:"Ragil", label:"Ragil"},
+        {value:"Tegar", label:"Tegar"},
+        {value:"Fiky", label:"Fiky"}
+      ],
+      validation: {required : true}  },
   ];
 
   useEffect(() => {
     const loadData = async () => {
-       // Fungsi getData sekarang aman dipanggil di sini!
-       const result = await getData('/api/borrowing?status=open');
-       setBorrowData(result);
+       try{
+         const result = await getData('/api/borrowing?status=open');
+         const clean = validateApiData(result)
+         setBorrowData(clean);
+         console.log(clean);
+         
+       }catch(err){
+        console.log(err);
+       }
     }
     loadData();
   }, []);
 
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setEditData((prev) => ({ ...prev, [name]: value }))
-    }
-
-  const handleStartEdit = (b) => {
-    setEditingId(b.id)
-    setEditData({
-      toolName: b.toolName || "",
-        borrower: b.borrower || "",
-        borrowDate: b.borrowDate ? b.borrowDate.split("T")[0] : "",
-        returnDate: b.returnDate ? b.returnDate.split("T")[0] : "",
-        location: b.location || "",
-        status: b.status || "",
-        toolsKeeper: b.toolsKeeper || "",
-    })
-    }
-
-    const handleSave = async (id) => {
+  
+    const handleSave = async (updateRow) => {
     try {
-      const res = await fetch(`/api/borrowing/${id}`, {
+      const res = await fetch(`/api/borrowing/${updateRow.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            toolName: editData.toolName,
-            borrower: editData.borrower,
-            borrowDate: editData.borrowDate,
-            returnDate: editData.returnDate,
-            location: editData.location,
-            status: editData.status,
-            tools_keeper: editData.tools_keeper,
-        }),
+        body: JSON.stringify(updateRow),
       })
    
       if (!res.ok) throw new Error("Gagal menyimpan data")
 
       const updated = await res.json()
 
-      setBorrowData((prev) => prev.map((tool) => (tool.id === id ? updated : tool)))
+      const formattedUpdated = validateApiData([updated])[0]
 
-      setEditingId(null)
+      setBorrowData((prev) => prev.map((tool) => (tool.id === updateRow.id ? formattedUpdated : tool)))
+      
       alert("✅ Data berhasil diperbarui")
     } catch (err) {
       console.error(err)
@@ -101,6 +112,9 @@ export default function DataBorrow() {
   return (
     <>
       <div className="bg-white p-4 rounded-xl drop-shadow-2xl min-h-fit">
+            <Table columns={columns} data={borrowData} onDelete={handleDelete} onSave={handleSave} enableAction={true}/>
+            </div>
+      {/* <div className="bg-white p-4 rounded-xl drop-shadow-2xl min-h-fit">
         <table className="min-w-full border border-gray-200 ">
           <thead className="bg-gray-100">
             <tr className="bg-table-header border-b border-table-border">
@@ -142,7 +156,7 @@ export default function DataBorrow() {
                   </td>
                  
                     {/* nama Tools */}
-                    <td className="px-6 py-4 text-sm">
+                    {/* <td className="px-6 py-4 text-sm">
                       {editingId === item.id ? (
                         <input
                         type="text"
@@ -154,11 +168,11 @@ export default function DataBorrow() {
                       ) : (
                         item.toolName
                       )}
-                    </td>
+                    </td> */}
 
 
                     {/* borrower */}
-                       <td className="px-6 py-4 text-sm">
+                       {/* <td className="px-6 py-4 text-sm">
                       {editingId === item.id ? (
                         <input
                         type="text"
@@ -170,10 +184,10 @@ export default function DataBorrow() {
                       ) : (
                         item.borrower
                       )}
-                    </td>
+                    </td> */}
 
                     {/* borrow Date */}
-                     <td className="px-6 py-4 text-sm">
+                     {/* <td className="px-6 py-4 text-sm">
                       {editingId === item.id ? (
                         <input
                         type="date"
@@ -185,10 +199,10 @@ export default function DataBorrow() {
                       ) : (
                         new Date(item.borrowDate).toLocaleDateString("id-ID")
                       )}
-                    </td>
+                    </td> */}
 
                       {/* return Date */}
-                    <td className="px-6 py-4 text-sm">
+                    {/* <td className="px-6 py-4 text-sm">
                       {editingId === item.id ? (
                         <input
                         type="date"
@@ -202,11 +216,11 @@ export default function DataBorrow() {
                   ) : (
                     "-"
                   )}
-                    </td>
+                    </td> */}
 
 
                     {/* location */}
-                    <td className="px-6 py-4 text-sm">
+                    {/* <td className="px-6 py-4 text-sm">
                       {editingId === item.id ? (
                         <select
                         name="location"
@@ -222,10 +236,10 @@ export default function DataBorrow() {
                       ) : (
                         item.location
                       )}
-                    </td>
+                    </td> */}
 
                       {/* status */}
-                     <td className="px-6 py-4 text-sm">
+                     {/* <td className="px-6 py-4 text-sm">
                       {editingId === item.id ? (
                         <select
                         name="status"
@@ -240,10 +254,10 @@ export default function DataBorrow() {
                       ) : (
                         item.status
                       )}
-                    </td>
+                    </td> */}
                       
                     {/* tools Keeper */}
-                     <td className="px-6 py-4 text-sm">
+                     {/* <td className="px-6 py-4 text-sm">
                       {editingId === item.id ? (
                         <select
                         name="tools_keeper"
@@ -258,10 +272,10 @@ export default function DataBorrow() {
                       ) : (
                         item.tools_keeper
                       )}
-                    </td>
+                    </td> */}
 
                 
-                    <td className="px-6 py-4 text-sm">
+                    {/* <td className="px-6 py-4 text-sm">
                       {editingId === item.id ? (
                         <div className="flex gap-2">
                           <button
@@ -307,8 +321,7 @@ export default function DataBorrow() {
               ))
             )}
           </tbody>
-        </table>
-      </div>
+        </table> */}
     </>
   );
 }

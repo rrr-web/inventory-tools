@@ -1,9 +1,6 @@
 import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { ArrowLeftIcon } from "@heroicons/react/16/solid"
 
 export default function AddBorrow() {
-  const router = useRouter()
   const [form, setForm] = useState({
     toolName: "",
     borrower: "",
@@ -21,11 +18,10 @@ export default function AddBorrow() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       })
-
+      console.log(form)
       if (!res.ok) throw new Error("Gagal menambah data")
       alert("✅ Data peminjaman berhasil ditambahkan!")
 
-      router.push("/borrowing")
     } catch (error) {
       console.error(error)
       alert("❌ Terjadi kesalahan saat menyimpan data.")
@@ -129,16 +125,16 @@ export default function AddBorrow() {
                   Tools Keeper
                 </label>
                 <select
-                  id="toolsKeeper"
+                  id="tools_Keeper"
                   className="flex h-10 w-full rounded-md border border-input  px-3 py-2 text-base  placeholder: focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                  value={form.toolsKeeper}
-                  onChange={(e) => setForm({ ...form, toolsKeeper: e.target.value })}
+                  value={form.tools_keeper}
+                  onChange={(e) => setForm({ ...form, tools_keeper: e.target.value })}
                   required
                 >
                   <option value="" disabled>Select tools keeper</option>
-                  <option value="John Doe">John Doe</option>
-                  <option value="Jane Smith">Jane Smith</option>
-                  <option value="Mike Johnson">Mike Johnson</option>
+                  <option value="Ragil">Ragil</option>
+                  <option value="Tegar">Tegar</option>
+                  <option value="Fiky">Fiky</option>
                 </select>
               </div>
 
@@ -148,7 +144,7 @@ export default function AddBorrow() {
                   htmlFor="location"
                   className="text-sm font-medium leading-none"
                 >
-                  Location
+                  Lokasi
                 </label>
                 <select
                   id="location"
@@ -159,9 +155,9 @@ export default function AddBorrow() {
                 >
                   <option value="" disabled>Select location</option>
                   <option value="MSF">MSF</option>
-                  <option value="AST & KAMAZ">AST & KAMAZ</option>
-                  <option value="TYRE">TYRE</option>
-                  <option value="WS KLAWAS">WS KLAWAS</option>
+                  <option value="AST & Kamaz">AST & Kamaz</option>
+                  <option value="WS Tyre">WS Tyre</option>
+                  <option value="WS Klawas">WS Klawas</option>
                 </select>
               </div>
             </div>

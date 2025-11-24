@@ -15,7 +15,7 @@ export async function GET(req) {
       where,
       orderBy: { createdAt: "desc" },
     });
-
+    console.log(borrows)
     return NextResponse.json(borrows);
   } catch (error) {
     console.error("GET Error:", error);

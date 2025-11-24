@@ -39,6 +39,13 @@
       }
     }
 
+    if (col.type === "select" && value) {
+      const validOptions = col.options?.map(opt => opt.value) || [];
+      if (validOptions.length > 0 && !validOptions.includes(value)) {
+        return `${col.label} tidak valid`;
+      }
+    }
+
     return null;
   };
 

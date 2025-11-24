@@ -12,7 +12,6 @@ const navItems = [
   { href: "/tools", label: "Stok Tools Room" },
   { href: "/warehouse", label: "Stok Tools Gudang" },
   { href: "/requests", label: "Permintaan Tools" },
-  { href: "/history", label: "History" },
 ];
 
 export default function DashboardLayout({ children }) {

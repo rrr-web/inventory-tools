@@ -14,7 +14,7 @@ export async function PATCH(req, context) {
       data: {
         ...(toolName && { toolName }),
         ...(borrower && { borrower }),
-        ...(borrowDate && { borrowDate }),
+        ...(borrowDate && { returnDate: new Date(borrowDate) }),
         ...(status && { status }),
         ...(location && { location }),
         ...(returnDate && { returnDate: new Date(returnDate) }),

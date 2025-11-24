@@ -5,22 +5,25 @@ export const validateApiData = (data) => {
   }
 
   return data.map((item) => {
-    // Format tanggal
-    let formattedDate = "";
-    if (item.createdAt) {
-      const date = new Date(item.createdAt);
-      formattedDate = !isNaN(date)
-        ? date.toLocaleDateString("id-ID", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          })
-        : "-";
-    }
+    // Format semua field tanggal ke yyyy-MM-dd
+    const dateFields = ['createdAt', 'borrowDate', 'returnDate']; // ✅ Tambahkan field tanggal lainnya
+    
+    const formattedItem = { ...item };
+    
+    dateFields.forEach(field => {
+      if (item[field]) {
+        const date = new Date(item[field]);
+        if (!isNaN(date.getTime())) {
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const day = String(date.getDate()).padStart(2, '0');
+          formattedItem[field] = `${year}-${month}-${day}`;
+        } else {
+          formattedItem[field] = "";
+        }
+      }
+    });
 
-    return {
-      ...item,        // kembalikan semua data lama
-      createdAt: formattedDate, // overwrite tanggal dengan format yang sudah rapi
-    };
+    return formattedItem;
   });
 };
