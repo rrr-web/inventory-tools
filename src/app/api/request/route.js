@@ -2,9 +2,15 @@ import {NextResponse} from 'next/server';;
 import { prisma } from '@/lib/prisma';
 
 export async function GET(req) {
+ const { searchParams } = new URL(req.url);
+  const status = searchParams.get('status');
+
+   const where = status
+      ? { status: status === "open" ? "Open" : "Close" }
+      : {}; 
   try {
     const requests = await prisma.request_tool.findMany({
-      where:{ status: 'Open' },
+      where,
       orderBy: { createdAt: 'desc' },
     });
     return NextResponse.json(requests);

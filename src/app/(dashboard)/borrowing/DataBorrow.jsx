@@ -61,9 +61,7 @@ export default function DataBorrow() {
        try{
          const result = await getData('/api/borrowing?status=open');
          const clean = validateApiData(result)
-         setBorrowData(clean);
-         console.log(clean);
-         
+         setBorrowData(clean);        
        }catch(err){
         console.log(err);
        }

@@ -9,7 +9,7 @@ export default function TableRequest() {
     useEffect(() => {
         const fetchDataRequest = async () => {
           try{
-          const result = await getData(`/api/request`)
+          const result = await getData(`/api/request?status=open`)
           setDataRequest(result)
           console.log(result);
           }catch(err){

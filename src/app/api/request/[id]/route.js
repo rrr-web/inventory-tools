@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
 
-// PATCH: Update data peminjaman
+
 export async function PATCH(req, context) {
   const { id } = await context.params; // 
   const body = await req.json();
@@ -48,7 +48,7 @@ export async function PATCH(req, context) {
 }
 
 
-// DELETE: Hapus data peminjaman
+
 export async function DELETE(req, context) {
   const { id } = await context.params;
 

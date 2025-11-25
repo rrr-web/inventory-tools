@@ -26,7 +26,7 @@ export default function LowStockWidget() {
 
   return (
     <div className="bg-white p-4 rounded-lg shadow text-black">
-      <h2 className="text-xl font-semibold mb-3">📉 Stok Menipis</h2>
+      <h2 className="text-xl font-semibold mb-3">📉 Stok Gudang</h2>
 
       <Table data={lowStock}
         columns={[

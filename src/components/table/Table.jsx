@@ -3,8 +3,7 @@ import { renderInput } from "@/lib/renderInput";
 import useEditableTable from "@/hooks/useEditableTable";
 
 export default function Table({ columns, data, onSave, onDelete, enableAction }) {
- 
-   const {
+  const {
     editingId,
     editedData,
     errors,
@@ -15,26 +14,26 @@ export default function Table({ columns, data, onSave, onDelete, enableAction })
     deleteRow,
   } = useEditableTable(columns);
 
-
   return (
-    <div className="w-full overflow-hidden rounded-xl bg-card shadow-xl border border-border text-black">
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse text-black">
+    <div className="w-full overflow-hidden rounded-xl bg-card shadow-xl border border-border">
+      <div className="overflow-x-auto"> 
+        <table className="w-full border-collapse min-w-full"> 
           <thead>
             <tr className="bg-table-header border-b border-table-border">
-              <th className="px-6 py-4 text-left text-sm font-semibold ">
+              <th className="px-6 py-4 text-left text-sm font-semibold sticky left-0 bg-table-header z-10"> 
                 No
               </th>
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className="px-6 py-4 text-left text-sm font-semibold "
+                  className="px-6 py-4 text-left text-sm font-semibold whitespace-normal" 
                 >
                   {col.label}
                 </th>
               ))}
+
               {enableAction && (
-              <th className="px-6 py-4 text-left text-sm font-semibold ">
+              <th className="px-6 py-4 text-left text-sm font-semibold sticky right-0 bg-table-header z-10"> 
                 Aksi
               </th>
               )}
@@ -54,66 +53,67 @@ export default function Table({ columns, data, onSave, onDelete, enableAction })
               data.map((item, index) => (
                 <tr
                   key={item.id}
-                  className="transition-colors hover:bg-gray-200 even:bg-gray-100"
+                  className="transition-colors hover:bg-gray-200 even:bg-gray-100 relative" 
                 >
-                  <td className="px-6 py-4 text-sm font-medium">
+                  {/* No Column - Sticky */}
+                  <td className="px-6 py-4 text-sm font-medium sticky left-0 bg-inherit z-5 whitespace-nowrap">
                     {index + 1}
                   </td>
+                  
+                  {/* Data Columns */}
                   {columns.map((col) => (
                     <td
                       key={col.key}
-                      className="px-6 py-4 text-sm"
+                      className="px-6 py-4 text-sm whitespace-nowrap min-w-[120px]" 
                     >
-                      {editingId === item.id 
-                      ? renderInput(col, editedData, errors, handleInputChange)
-                       : (
-                        item[col.key]
+                      {editingId === item.id ? (
+                        <div className="min-w-[120px]"> 
+                          {renderInput(col, editedData, errors, handleInputChange)}
+                        </div>
+                      ) : (
+                        <span className="block truncate max-w-[200px]"> 
+                          {item[col.key] || "-"}
+                        </span>
                       )}
                     </td>
                   ))}
-                    {enableAction && (
-                  <td className="px-6 py-4 text-sm">
+                  
+                  {/* Actions Column - Sticky */}
+                  {enableAction && (
+                  <td className="px-6 py-4 text-sm sticky right-0 bg-inherit z-5 whitespace-nowrap">
                     {editingId === item.id ? (
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 bg-inherit">
                         <button
-                          size="icon"
-                          variant="ghost"
-                          onClick={()=> saveEdit(onSave)}
-                          className="h-8 w-8 text-green-600 hover:text-green-700 hover:bg-green-50"
+                          onClick={() => saveEdit(onSave)}
+                          className="h-8 w-8 text-green-600 hover:text-green-700 hover:bg-green-50 rounded flex items-center justify-center"
                         >
                           <CheckIcon className="h-4 w-4" />
                         </button>
                         <button
-                          size="icon"
-                          variant="ghost"
-                          onClick={(()=> cancelEdit(cancelEdit))}
-                          className="h-8 w-8 bg-gray-200 hover:bg-gray-100"
+                          onClick={cancelEdit}
+                          className="h-8 w-8 bg-gray-200 hover:bg-gray-100 rounded flex items-center justify-center"
                         >
                           <XMarkIcon className="h-4 w-4" />
                         </button>
                       </div>
                     ) : (
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 bg-inherit">
                         <button
-                          size="icon"
-                          variant="ghost"
                           onClick={() => startEdit(item)}
-                          className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                          className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded flex items-center justify-center"
                         >
                           <PencilIcon className="h-4 w-4" />
                         </button>
                         <button
-                          size="icon"
-                          variant="ghost"
                           onClick={() => deleteRow(item.id, onDelete)}
-                          className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
+                          className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50 rounded flex items-center justify-center"
                         >
                           <TrashIcon className="h-4 w-4" />
                         </button>
                       </div>
                     )}
                   </td>
-                    )}
+                  )}
                 </tr>
               ))
             )}

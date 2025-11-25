@@ -2,14 +2,19 @@ export const renderInput = (col, editedData, errors, handleInputChange) => {
   const value = editedData[col.key] ?? "";
   const hasError = !!errors[col.key];
 
+  
+  const inputClassName = `w-full text-sm ${hasError ? "border-destructive border-2" : "border border-gray-300"} rounded px-2`;
+  
+  const containerClassName = "space-y-1 min-w-[120px]";
+
   switch (col.type) {
     case "textarea":
       return (
-        <div className="space-y-1">
+        <div className={containerClassName}>
           <textarea
             value={value}
             onChange={(e) => handleInputChange(col.key, e.target.value)}
-            className={`min-h-[60px] text-sm ${hasError ? "border-destructive" : ""}`}
+            className={`${inputClassName} min-h-[60px]`}
           />
           {hasError && (
             <p className="text-xs text-destructive">{errors[col.key]}</p>
@@ -19,12 +24,12 @@ export const renderInput = (col, editedData, errors, handleInputChange) => {
 
     case "number":
       return (
-        <div className="space-y-1">
+        <div className={containerClassName}>
           <input
             type="number"
             value={value}
             onChange={(e) => handleInputChange(col.key, e.target.value)}
-            className={`h-8 text-sm ${hasError ? "border-destructive" : ""}`}
+            className={`${inputClassName} h-8`}
           />
           {hasError && (
             <p className="text-xs text-destructive">{errors[col.key]}</p>
@@ -34,12 +39,12 @@ export const renderInput = (col, editedData, errors, handleInputChange) => {
 
     case "date":
       return (
-        <div className="space-y-1">
+        <div className={containerClassName}>
           <input
             type="date"
             value={value}
             onChange={(e) => handleInputChange(col.key, e.target.value)}
-            className={`h-8 text-sm ${hasError ? "border-destructive" : ""}`}
+            className={`${inputClassName} h-8`}
           />
           {hasError && (
             <p className="text-xs text-destructive">{errors[col.key]}</p>
@@ -48,21 +53,14 @@ export const renderInput = (col, editedData, errors, handleInputChange) => {
       );
 
     case "select":
-  //     console.log(`🔍 Select Debug - ${col.key}:`, {
-  //   currentValue: value,
-  //   options: col.options,
-  //   hasError: hasError,
-  //   errorMessage: errors[col.key]
-  // });
       return (
-        <div className="space-y-1">
-          <select value={value || ""} onChange={(e) => {
-          console.log(`🎯 ${col.key} changed from: ${value} to: ${e.target.value}`);
-          handleInputChange(col.key, e.target.value);
-        }}
-            className={`h-8 text-sm ${hasError ? "border-destructive" : ""}`}
+        <div className={containerClassName}>
+          <select 
+            value={value}
+            onChange={(e) => handleInputChange(col.key, e.target.value)}
+            className={`${inputClassName} h-8`}
           >
-            <option value="" disabled>Pilih {col.label}</option>
+            <option value="">Pilih {col.label}</option>
             {col.options?.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -77,11 +75,11 @@ export const renderInput = (col, editedData, errors, handleInputChange) => {
 
     default:
       return (
-        <div className="space-y-1">
+        <div className={containerClassName}>
           <input
             value={value}
             onChange={(e) => handleInputChange(col.key, e.target.value)}
-            className={`h-8 text-sm ${hasError ? "border-destructive" : ""}`}
+            className={`${inputClassName} h-8`}
           />
           {hasError && (
             <p className="text-xs text-destructive">{errors[col.key]}</p>
