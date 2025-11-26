@@ -121,6 +121,5 @@ export default function Table({ columns, data, onSave, onDelete, enableAction })
         </table>
       </div>
     </div>
-    </div>
   );
 }
