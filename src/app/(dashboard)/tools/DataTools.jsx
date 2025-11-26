@@ -1,8 +1,5 @@
-"use client"
-
 import Table from "@/components/table/Table"
 import { getData } from "@/lib/data"
-import { CheckIcon, PencilIcon, TrashIcon, XMarkIcon } from "@heroicons/react/16/solid"
 import { useEffect, useState } from "react"
 
 export default function ToolsPage() {

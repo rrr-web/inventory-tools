@@ -15,25 +15,25 @@ export default function Table({ columns, data, onSave, onDelete, enableAction })
   } = useEditableTable(columns);
 
   return (
-    <div className="w-full overflow-hidden rounded-xl shadow-xl ">
+    <div className="w-full overflow-hidden rounded-xl bg-card shadow-xl border border-border">
       <div className="overflow-x-auto"> 
-        <table className="w-full border-collapse min-w-full "> 
-          <thead className="bg-gray-100">
-            <tr className=" border-b">
-              <th className="px-6 py-4 text-left text-sm font-semibold sticky left-0  z-10"> 
+        <table className="w-full border-collapse min-w-full"> 
+          <thead>
+            <tr className="bg-table-header border-b border-table-border">
+              <th className="px-6 py-4 text-left text-sm font-semibold sticky left-0 bg-table-header z-10"> 
                 No
               </th>
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className="px-6 py-4 text-left text-sm font-semibold whitespace-normal" 
+                  className="px-6 py-4 text-left text-sm font-semibold whitespace-normal bg-gray-100" 
                 >
                   {col.label}
                 </th>
               ))}
 
               {enableAction && (
-              <th className="px-6 py-4 text-left text-sm font-semibold sticky right-0  z-10"> 
+              <th className="px-6 py-4 text-left text-sm font-semibold sticky right-0 bg-table-header z-10"> 
                 Aksi
               </th>
               )}
@@ -53,8 +53,9 @@ export default function Table({ columns, data, onSave, onDelete, enableAction })
               data.map((item, index) => (
                 <tr
                   key={item.id}
-                  className="transition-colors hover:bg-gray-100 even:bg-gray-50 relative" 
+                  className="transition-colors hover:bg-gray-200 even:bg-gray-100 relative" 
                 >
+                  {/* No Column - Sticky */}
                   <td className="px-6 py-4 text-sm font-medium sticky left-0 bg-inherit z-5 whitespace-nowrap">
                     {index + 1}
                   </td>
@@ -66,7 +67,7 @@ export default function Table({ columns, data, onSave, onDelete, enableAction })
                       className="px-6 py-4 text-sm whitespace-nowrap min-w-[120px]" 
                     >
                       {editingId === item.id ? (
-                        <div className="min-w-[120px]"> 
+                        <div className="min-w-[120px] bg-"> 
                           {renderInput(col, editedData, errors, handleInputChange)}
                         </div>
                       ) : (
@@ -79,7 +80,7 @@ export default function Table({ columns, data, onSave, onDelete, enableAction })
                   
                   {/* Actions Column - Sticky */}
                   {enableAction && (
-                  <td className="px-6 py-4 text-sm sticky right-0 bg-inherit z-5 whitespace-nowrap">
+                  <td className="px-6 py-4 text-sm sticky right-0 bg-white z-5 whitespace-nowrap">
                     {editingId === item.id ? (
                       <div className="flex gap-2 bg-inherit">
                         <button
@@ -119,6 +120,7 @@ export default function Table({ columns, data, onSave, onDelete, enableAction })
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 }

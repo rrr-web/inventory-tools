@@ -107,9 +107,9 @@ export default function HistoryBorrow() {
 
   return (
     <>
-      <div className="bg-white p-4 rounded-xl drop-shadow-2xl min-h-fit">
+      
       <Table columns={columns} data={dataHistory} onDelete={handleDelete} onSave={handleSave} enableAction={true}/>
-      </div>
+      
     </>
   );
 }

@@ -69,7 +69,7 @@ export default function DashboardLayout({ children }) {
       )}
 
       {/* Main Content */}
-      <section className="flex-1 p-6 lg:p-8 pt-20 lg:pt-6">
+      <section className="flex-1 p-6 lg:p-8 pt-20 lg:pt-6 min-w-0">
         {children}
       </section>
     </main>

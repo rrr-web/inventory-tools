@@ -5,8 +5,8 @@ export const validateApiData = (data) => {
   }
 
   return data.map((item) => {
-    // Format semua field tanggal ke yyyy-MM-dd
-    const dateFields = ['createdAt', 'borrowDate', 'returnDate']; // ✅ Tambahkan field tanggal lainnya
+    //Format semua field tanggal ke yyyy-MM-dd
+    const dateFields = ['createdAt', 'borrowDate', 'returnDate', 'brokenDate']; // ✅ Tambahkan field tanggal lainnya
     
     const formattedItem = { ...item };
     

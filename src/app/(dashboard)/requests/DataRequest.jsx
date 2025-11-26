@@ -114,13 +114,13 @@ export default function DataRequest() {
       key: "reference",
       label: "Referensi",
       type: "textarea",
-      validation: { required: true, min: 3, max: 100 },
+      validation: { required: true, min: 3, max: 200 },
     },
     {
       key: "note",
       label: "Keterangan",
       type: "textarea",
-      validation: { required: true, min: 3, max: 100 },
+      validation: { required: true, min: 3, max: 200 },
     },
     {
       key: "status",
@@ -141,14 +141,15 @@ export default function DataRequest() {
   ];
 
   return (
-    <div className="bg-white p-4 rounded-xl drop-shadow-2xl min-h-fit">
+   <>
       <Table
         columns={columns}
         data={dataReq}
         onDelete={handleDelete}
         onSave={handleSave}
         enableAction={true}
-      />
-    </div>
+        />
+        </>
+   
   );
 }
