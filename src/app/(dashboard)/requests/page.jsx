@@ -15,7 +15,7 @@ export default function RequestsPage() {
  
    // 2. Render UI
    return (
-     <div className="text-black bg-white p-4 rounded-xl shadow min-h-full">
+     <div className="text-black bg-white p-4 rounded-xl shadow min-h-full w-[80%]">
        
        <h1 className="text-2xl font-bold mb-4">Permintaan Tools</h1>
        <div>
