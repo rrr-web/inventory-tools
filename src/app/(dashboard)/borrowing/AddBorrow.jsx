@@ -10,8 +10,7 @@ export default function AddBorrow() {
     tools_keeper: "",
   })
 
-  async function handleSubmit(e) {
-    e.preventDefault()
+  async function handleSubmit() {
     try {
       const res = await fetch("/api/borrowing", {
         method: "POST",

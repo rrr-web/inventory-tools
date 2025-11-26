@@ -107,10 +107,9 @@ export default function HistoryStock(){
 
     return(
         <>
-        <div className="bg-white p-4 rounded-xl drop-shadow-2xl min-h-fit">
-
+  
         <Table columns={baseColumns} data={dataHistory} onDelete={handleDelete} onSave={handleSave} enableAction={true}/>
-        </div>
+
         </>
     )
 }

@@ -107,29 +107,10 @@ model User {
   name      String
   userName  String   @unique  // 
   password  String
+  role      String  @default("admin")
   createdAt DateTime @default(now())
 
-  sessions Session[]
 
-  @@map("users")
-}
-model Session {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  sessionToken String   @unique
-  userId       String   @db.ObjectId
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("sessions")
 }
 
-model VerificationToken {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  identifier  String
-  token       String   @unique
-  expires     DateTime
-
-  @@unique([identifier, token])
-  @@map("verification_tokens")
-}
 

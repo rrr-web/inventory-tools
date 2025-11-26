@@ -14,10 +14,10 @@ export const renderInput = (col, editedData, errors, handleInputChange) => {
           <textarea
             value={value}
             onChange={(e) => handleInputChange(col.key, e.target.value)}
-            className={`${inputClassName} min-h-[60px]`}
+            className={`${inputClassName}   min-h-[60px]`}
           />
           {hasError && (
-            <p className="text-xs text-destructive">{errors[col.key]}</p>
+            <p className="text-xs text-red-600">{errors[col.key]}</p>
           )}
         </div>
       );
@@ -32,7 +32,7 @@ export const renderInput = (col, editedData, errors, handleInputChange) => {
             className={`${inputClassName} h-8`}
           />
           {hasError && (
-            <p className="text-xs text-destructive">{errors[col.key]}</p>
+            <p className="text-xs text-red-600">{errors[col.key]}</p>
           )}
         </div>
       );
@@ -47,7 +47,7 @@ export const renderInput = (col, editedData, errors, handleInputChange) => {
             className={`${inputClassName} h-8`}
           />
           {hasError && (
-            <p className="text-xs text-destructive">{errors[col.key]}</p>
+            <p className="text-xs text-red-600">{errors[col.key]}</p>
           )}
         </div>
       );
@@ -68,7 +68,7 @@ export const renderInput = (col, editedData, errors, handleInputChange) => {
             ))}
           </select>
           {hasError && (
-            <p className="text-xs text-destructive">{errors[col.key]}</p>
+            <p className="text-xs text-red-600">{errors[col.key]}</p>
           )}
         </div>
       );
@@ -82,7 +82,7 @@ export const renderInput = (col, editedData, errors, handleInputChange) => {
             className={`${inputClassName} h-8`}
           />
           {hasError && (
-            <p className="text-xs text-destructive">{errors[col.key]}</p>
+            <p className="text-xs text-red-600">{errors[col.key]}</p>
           )}
         </div>
       );

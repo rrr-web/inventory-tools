@@ -17,7 +17,7 @@ export default function DataBorrowPage() {
 
   // 2. Render UI
   return (
-    <div className="text-black bg-white p-4 rounded-xl shadow min-h-full">
+    <div className="bg-white p-4 rounded-xl shadow min-h-full">
       
       <h1 className="text-2xl font-bold mb-4">Peminjaman Tools</h1>
       <div>

@@ -36,8 +36,8 @@ export default function AddToolPage() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  async function handleSubmit() {
+   
 
     if (!selectedTool) return alert("Pilih alat terlebih dahulu");
 
@@ -169,23 +169,6 @@ export default function AddToolPage() {
               />
             </div>
 
-            {/* Lokasi */}
-            {/* <div>
-            <label className="block text-sm font-medium mb-1">Lokasi</label>
-            <select
-              name="location"
-              className="w-full border border-gray-300 p-2 rounded focus:outline-blue-500"
-              value={form.location}
-              onChange={handleChange}
-              required
-            >
-              <option value="" disabled>
-                Pilih lokasi
-              </option>
-              <option value="Gudang">Gudang</option>
-              <option value="Tools Room">Tools Room</option>
-            </select>
-          </div> */}
 
             {/* Tombol Aksi */}
             <div>
