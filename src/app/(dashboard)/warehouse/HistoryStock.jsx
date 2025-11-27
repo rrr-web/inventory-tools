@@ -58,6 +58,12 @@ export default function HistoryStock(){
       validation: { required: true }
     },
     {
+      key: "receiver",
+      label: "Penerima",
+      type: "text",
+      validation: { required: true, min: 2, max: 100 }
+    },
+    {
       key: "createdAt",
       label: "Tanggal",
       type: "date",
@@ -108,7 +114,7 @@ export default function HistoryStock(){
     return(
         <>
   
-        <Table columns={baseColumns} data={dataHistory} onDelete={handleDelete} onSave={handleSave} enableAction={true}/>
+        <Table columns={baseColumns} data={dataHistory} onDelete={handleDelete} onSave={handleSave} enableAction={true} enableSearch={true}/>
 
         </>
     )

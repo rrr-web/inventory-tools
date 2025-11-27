@@ -108,7 +108,7 @@ export default function HistoryBorrow() {
   return (
     <>
       
-      <Table columns={columns} data={dataHistory} onDelete={handleDelete} onSave={handleSave} enableAction={true}/>
+      <Table columns={columns} data={dataHistory} onDelete={handleDelete} onSave={handleSave} enableAction={true} enableSearch={true}/>
       
     </>
   );

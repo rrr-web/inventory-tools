@@ -110,7 +110,7 @@ export default function DataBorrow() {
   return (
     <>
     
-            <Table columns={columns} data={borrowData} onDelete={handleDelete} onSave={handleSave} enableAction={true}/>
+            <Table columns={columns} data={borrowData} onDelete={handleDelete} onSave={handleSave} enableAction={true} enableSearch={true}/>
            
     </>
   );

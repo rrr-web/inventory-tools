@@ -23,7 +23,7 @@ export async function PATCH(req, context) {
 
     return NextResponse.json(updated);
   } catch (error) {
-    console.error("❌ PATCH error:", error);
+    console.error("PATCH error:", error);
     return NextResponse.json({ error: "Gagal mengupdate data" }, { status: 500 });
   }
 }
@@ -33,7 +33,7 @@ export async function DELETE(req, context) {
 
   try {
     const deleted = await prisma.toolBroken.delete({
-      where: { id }, // Prisma otomatis pakai String id (karena di schema sudah pakai @map("_id"))
+      where: { id },
     });
 
     return NextResponse.json({
@@ -41,7 +41,7 @@ export async function DELETE(req, context) {
       deleted,
     });
   } catch (error) {
-    console.error("❌ DELETE error:", error);
+    console.error("DELETE error:", error);
     return NextResponse.json(
       { error: "Gagal menghapus data" },
       { status: 500 }

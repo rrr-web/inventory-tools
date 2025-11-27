@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// GET: Ambil semua data tools Room
 export async function GET() {
   try {
     const tools = await prisma.stock_toolRoom.findMany({
@@ -19,7 +18,7 @@ export async function GET() {
 }
 
 // history
-async function addHistory({ toolName, brand, spec, PN, action, source, quantityChange, description }) {
+async function addHistory({ toolName, brand, spec, PN, action, source, quantityChange, description, receiver }) {
   return prisma.stockHistory.create({
     data: {
       toolName,
@@ -30,6 +29,7 @@ async function addHistory({ toolName, brand, spec, PN, action, source, quantityC
       source,
       quantityChange,
       description,
+      receiver
     },
   });
 }
@@ -40,7 +40,6 @@ export async function POST(req) {
     const body = await req.json();
     const { toolId, toolName, brand, spec, PN, quantity } = body;
 
-    // VALIDASI
     if (!toolId || !toolName || !quantity) {
       return NextResponse.json(
         { error: "toolId, toolName dan quantity wajib diisi" },
@@ -109,6 +108,7 @@ export async function POST(req) {
       spec,
       PN,
       source: "Gudang",
+      receiver:"Tools Room",
       action: "OUT",
       quantityChange: -Number(quantity),
       description: "Tools keluar dari gudang",
@@ -132,7 +132,7 @@ export async function POST(req) {
     );
 
   } catch (error) {
-    console.error("❌ POST /tools error:", error);
+    console.error("POST error:", error);
     return NextResponse.json(
       { error: "Gagal mencatat penambahan tools" },
       { status: 500 }

@@ -99,6 +99,7 @@ model StockHistory {
   action       String   // "WAREHOUSE_DECREASE", "TOOLROOM_INCREASE"
   source       String   // "warehouse", "toolroom"
   description  String?
+  receiver  String?
   createdAt    DateTime @default(now())
 }
 

@@ -89,7 +89,7 @@ export default function ToolsPage() {
 
   return (
     <>
-    <Table columns={columns} data={dataTools} onDelete={handleDelete} onSave={handleSave} enableAction={true} />
+    <Table columns={columns} data={dataTools} onDelete={handleDelete} onSave={handleSave} enableAction={true} enableSearch={true}/>
     </>
   )
 }

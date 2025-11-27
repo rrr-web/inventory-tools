@@ -13,9 +13,8 @@ export default function RequestsPage() {
      { id: "riwayat", label: "Riwayat Request" }
    ];
  
-   // 2. Render UI
    return (
-     <div className="text-black bg-white p-4 rounded-xl shadow min-h-full w-[80%]">
+     <div className="text-black bg-white p-4 rounded-xl shadow min-h-full">
        
        <h1 className="text-2xl font-bold mb-4">Permintaan Tools</h1>
        <div>

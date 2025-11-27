@@ -109,7 +109,7 @@ const handleSave = async (updatedRow) => {
 
     return(
         <>
-            <Table columns={columns} onDelete={handleDelete} onSave={handleSave} data={toolsBroken} enableAction={true}/>
+            <Table columns={columns} onDelete={handleDelete} onSave={handleSave} data={toolsBroken} enableAction={true} enableSearch={true}/>
         </>
     )
 }

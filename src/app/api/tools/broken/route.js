@@ -58,7 +58,7 @@ export async function POST(req) {
     );
 
   } catch (error) {
-    console.error("❌ POST /broken error:", error);
+    console.error("POST error:", error);
     return NextResponse.json(
       { error: "Gagal mencatat kerusakan alat" },
       { status: 500 }
@@ -75,7 +75,7 @@ export async function GET() {
 
     return NextResponse.json(brokenTools)
   } catch (error) {
-    console.error("❌ GET /broken error:", error);
+    console.error("GET error:", error);
     return NextResponse.json(
       { error: "Gagal mengambil data kerusakan alat" },
       { status: 500 }

@@ -22,7 +22,7 @@ export async function GET(req) {
 
     return NextResponse.json(tools)
   } catch (error) {
-    console.error("❌ Search Error:", error)
+    console.error("Search Error:", error)
     return NextResponse.json({ error: "Gagal mencari tool" }, { status: 500 })
   }
 }

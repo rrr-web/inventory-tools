@@ -89,7 +89,7 @@ export default function DataStock() {
   return (
   <>
 
-    <Table columns={columns} data={dataStock} onSave={handleSave} onDelete={handleDelete} enableAction={true} />
+    <Table columns={columns} data={dataStock} onSave={handleSave} onDelete={handleDelete} enableAction={true} enableSearch={true}/>
 
   </>
   )

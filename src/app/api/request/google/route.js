@@ -32,7 +32,7 @@ export async function POST(req) {
 
     return NextResponse.json({ success: true, data: newRequest });
   } catch (error) {
-    console.error("❌ API Error:", error);
+    console.error("Post error:", error);
     return NextResponse.json(
       { success: false, error: "Gagal menyimpan data" },
       { status: 500 }

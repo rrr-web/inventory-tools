@@ -15,7 +15,7 @@ export async function GET(req) {
     });
     return NextResponse.json(requests);
   } catch (error) {
-    console.error("❌ API Error:", error);
+    console.error("GET Error:", error);
     return NextResponse.json(
       { success: false, error: "Gagal mengambil data" },
       { status: 500 }

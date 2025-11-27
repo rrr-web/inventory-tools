@@ -14,7 +14,7 @@ export async function DELETE(req, context) {
             deleted,
         });
     } catch (error) {
-        console.error("❌ DELETE error:", error);
+        console.error("Delete error:", error);
         return NextResponse.json(
             { error: "Gagal menghapus data" },
             { status: 500 }
@@ -24,9 +24,9 @@ export async function DELETE(req, context) {
 
 
 export async function PATCH(req, context) {
-  const { id } = await context.params; // 
+  const { id } = await context.params;  
   const body = await req.json();
-  const { toolName,brand,PN,spec, action, quantityChange, createdAt } = body;
+  const { toolName,brand,PN, action, quantityChange, createdAt, receiver } = body;
 
   try {
     const updated = await prisma.stockHistory.update({
@@ -35,7 +35,8 @@ export async function PATCH(req, context) {
         ...(toolName && { toolName }),
         ...(brand && { brand }),
         ...(PN && { PN }),
-        ...(spec && { action }),
+        ...(action && { action }),
+        ...(receiver && { receiver }),
         ...(quantityChange && {quantityChange: Number(quantityChange) }),
         ...(createdAt && { createdAt: new Date(createdAt) })
       },
@@ -43,7 +44,7 @@ export async function PATCH(req, context) {
 
     return NextResponse.json(updated);
   } catch (error) {
-    console.error("❌ PATCH error:", error);
+    console.error("PATCH error:", error);
     return NextResponse.json({ error: "Gagal mengupdate data" }, { status: 500 });
   }
 }

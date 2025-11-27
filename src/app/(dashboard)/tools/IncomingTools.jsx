@@ -110,7 +110,7 @@ export default function IncomingTools() {
   return (
     <>
       
-      <Table columns={baseColumns} data={dataIncoming} onDelete={handleDelete} onSave={handleSave} enableAction={true}/>
+      <Table columns={baseColumns} data={dataIncoming} onDelete={handleDelete} onSave={handleSave} enableAction={true} enableSearch={true}/>
       
     </>
   );

@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
-// GET: Ambil semua data gudang
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
@@ -44,7 +43,6 @@ export async function GET(req) {
 
 
 
-// POST: Tambah data stovk gudang
 export async function POST(request) {
   try {
     const body = await request.json()
@@ -62,7 +60,7 @@ export async function POST(request) {
 
     return NextResponse.json(tools)
   } catch (error) {
-    console.error("Error POST /api/warehouse:", error)
+    console.error("POST error:", error)
     return NextResponse.json({ error: "Gagal menambah data" }, { status: 500 })
   }
 }

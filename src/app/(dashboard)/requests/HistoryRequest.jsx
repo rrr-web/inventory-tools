@@ -148,6 +148,7 @@ export default function HistoryRequest() {
         onDelete={handleDelete}
         onSave={handleSave}
         enableAction={true}
+        enableSearch={true}
       />
     </>
   );
