@@ -1,7 +1,7 @@
 "use client";
 import Navbar from "@/components/navbar/Navbar";
 import DataBorrow from "./DataBorrow";
-import AddBorrow from "@/app/(dashboard)/borrowing/AddBorrow";
+import AddBorrow from "@/app/auth/(dashboard)/borrowing/AddBorrow";
 import HistoryBorrow from "./HistoryBorrow";
 import { useState } from "react";
 

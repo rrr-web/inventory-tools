@@ -7,11 +7,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/borrowing", label: "Peminjaman Tools" },
-  { href: "/tools", label: "Stok Tools Room" },
-  { href: "/warehouse", label: "Stok Tools Gudang" },
-  { href: "/requests", label: "Permintaan Tools" },
+  { href: "/auth/dashboard", label: "Dashboard" },
+  { href: "/auth/borrowing", label: "Peminjaman Tools" },
+  { href: "/auth/tools", label: "Stok Tools Room" },
+  { href: "/auth/warehouse", label: "Stok Tools Gudang" },
+  { href: "/auth/requests", label: "Permintaan Tools" },
 ];
 
 export default function DashboardLayout({ children }) {

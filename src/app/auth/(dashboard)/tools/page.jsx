@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import DataTools from "@/app/(dashboard)/tools/DataTools"
-import AddTools from "@/app/(dashboard)/tools/AddTools"
-import ToolBroken from "@/app/(dashboard)/tools/ToolBroken"
+import DataTools from "@/app/auth/(dashboard)/tools/DataTools"
+import AddTools from "@/app/auth/(dashboard)/tools/AddTools"
+import ToolBroken from "@/app/auth/(dashboard)/tools/ToolBroken"
 import Navbar from "@/components/navbar/Navbar"
 import HistoryToolsBroken from "./HistoryToolsBroken"
 import IncomingTools from "./IncomingTools"

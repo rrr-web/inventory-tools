@@ -10,27 +10,29 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.11.1",
     "@heroicons/react": "^2.2.0",
-    "@next-auth/prisma-adapter": "^1.0.7",
-    "@prisma/client": "^6.18.0",
+    "@prisma/client": "6.19",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
     "mongodb": "^6.20.0",
     "next": "16.0.1",
-    "next-auth": "^4.24.13",
+    "next-auth": "^5.0.0-beta.30",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.0",
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.17",
+    "@types/node": "^24.10.1",
     "autoprefixer": "^10.4.22",
     "bson": "^6.10.4",
     "dotenv": "^17.2.3",
     "eslint": "^9",
     "eslint-config-next": "16.0.1",
     "postcss": "^8.5.6",
-    "prisma": "^6.18.0",
+    "prisma": "6.19",
     "tailwindcss": "^4.1.17"
   }
 }
