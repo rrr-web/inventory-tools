@@ -11,6 +11,12 @@ export default function AddStock() {
       location:""
     });
 
+
+    const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
     async function handleSubmit(e) {
     e.preventDefault()
     try {
@@ -86,11 +92,12 @@ export default function AddStock() {
             <label className="text-sm font-medium leading-none">Jumlah</label>
             <input
               type="number"
+              name="quantity"
               placeholder="Masukkan Jumlah"
               min={1}
              className="flex h-10 w-full rounded-md border border-input  px-3 py-2 text-base  placeholder: focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
               value={form.quantity}
-              onChange={(e) => setForm({ ...form, quantity: parseInt(e.target.value)  })}
+              onChange={handleChange}
               required
             />
           </div>

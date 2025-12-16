@@ -10,7 +10,7 @@ export default function IncomingTools() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getData("api/history?source")
+        const result = await getData("/api/history?source=Tools Room")
         const clean = validateApiData(result)
         setDataIncoming(clean)
       } catch (err) {

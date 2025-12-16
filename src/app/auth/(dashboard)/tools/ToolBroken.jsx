@@ -86,14 +86,14 @@ export default function ToolBroken() {
                 />
 
                 {!selectedTool && suggestions.length > 0 && (
-                  <ul className="absolute z-10 bg-white border w-full rounded shadow max-h-40 overflow-y-auto">
+                  <ul className="absolute z-10 bg-white border w-fit rounded shadow max-h-40 overflow-y-auto">
                     {suggestions.map((tool) => (
                       <li
                         key={tool.id}
                         onClick={() => handleSelectTool(tool)}
                         className="p-2 hover:bg-gray-100 cursor-pointer"
                       >
-                        {tool.toolName} - {tool.brand}
+                        {tool.toolName} - {tool.brand} - {tool.quantity} PCS
                       </li>
                     ))}
                   </ul>

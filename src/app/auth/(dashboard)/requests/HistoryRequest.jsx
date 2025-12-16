@@ -10,7 +10,7 @@ export default function HistoryRequest() {
     const fetchData = async () => {
       try {
         const data = await getData("/api/request?status=close");
-        const clean =  validateApiData(data)
+        const clean =  validateApiData(data.requests)
         setDataReq(clean);
       } catch (err) {
         console.log(err);

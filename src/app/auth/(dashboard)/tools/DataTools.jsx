@@ -65,7 +65,7 @@ export default function ToolsPage() {
 
       const updated = await res.json()
 
-      setDataTools((prev) => prev.map((tool) => (tool.id === id ? updated : tool)))
+      setDataTools((prev) => prev.map((tool) => (tool.id === updated.id ? updated : tool)))
 
       alert("✅ Data berhasil diperbarui")
     } catch (err) {

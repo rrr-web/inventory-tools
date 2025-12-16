@@ -13,7 +13,8 @@ export async function GET(req) {
       where,
       orderBy: { createdAt: 'desc' },
     });
-    return NextResponse.json(requests);
+     const count = await prisma.request_tool.count({ where });
+    return NextResponse.json({requests, count})
   } catch (error) {
     console.error("GET Error:", error);
     return NextResponse.json(

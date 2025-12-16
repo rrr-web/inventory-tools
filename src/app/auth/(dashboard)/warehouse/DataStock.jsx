@@ -64,7 +64,7 @@ export default function DataStock() {
       const updated = await res.json();
 
       setDataStock((prev) =>
-        prev.map((tool) => (tool.id === id ? updated : tool))
+        prev.map((tool) => (tool.id === updated.id ? updated : tool))
       );
 
       alert("✅ Data berhasil diperbarui");

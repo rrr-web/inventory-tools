@@ -10,8 +10,7 @@ export default function TableRequest() {
         const fetchDataRequest = async () => {
           try{
           const result = await getData(`/api/request?status=open`)
-          setDataRequest(result)
-          console.log(result);
+          setDataRequest(result.requests)
           }catch(err){
             console.error(err);
           }

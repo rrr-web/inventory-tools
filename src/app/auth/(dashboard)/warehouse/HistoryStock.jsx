@@ -9,7 +9,7 @@ export default function HistoryStock(){
     useEffect(()=>{
         const fetchDataRequest = async () => {
           try{
-          const result = await getData(`/api/history?source=gudang`)
+          const result = await getData(`/api/history?source=Gudang`)
           const clean = validateApiData(result)
           setDataHistory(clean)
           }catch(err){
@@ -85,7 +85,7 @@ export default function HistoryStock(){
   
         const formattedUpdated = validateApiData([updated])[0];
   
-        setDataIncoming((prev) =>
+        setDataHistory((prev) =>
           prev.map((item) =>
             item.id === updatedRow.id ? formattedUpdated : item
           )

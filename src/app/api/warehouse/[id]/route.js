@@ -28,7 +28,7 @@ export async function PATCH(req, context) {
   }
 }
 
-// DELETE: Hapus data stock gudang
+
 export async function DELETE(req, context) {
   const { id } = await context.params;
 

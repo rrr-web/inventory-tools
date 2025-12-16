@@ -102,14 +102,14 @@ export default function ToolsOut() {
 
                 {/* Dropdown hasil pencarian */}
                 {!selectedTool && suggestions.length > 0 && (
-                  <ul className="absolute z-10 bg-white border max-w-full rounded shadow max-h-40 overflow-y-auto ">
+                  <ul className="absolute z-10 bg-white border w-fit rounded shadow max-h-40 overflow-y-auto ">
                     {suggestions.map((tool) => (
                       <li
                         key={tool.id}
                         onClick={() => handleSelectTool(tool)}
                         className="p-2 hover:bg-gray-200 cursor-pointer"
                       >
-                        {tool.toolName} {tool.brand ? `- ${tool.brand}` : ""}
+                        {tool.toolName} {tool.brand } - {tool.quantity} PCS
                       </li>
                     ))}
                   </ul>

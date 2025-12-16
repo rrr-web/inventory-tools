@@ -58,6 +58,21 @@ export async function POST(request) {
       },
     })
 
+      await prisma.stockHistory.create({
+       data: {
+      toolName: body.toolName,
+      brand: body.brand,
+      spec: body.spec,
+      PN: body.PN,
+      source: "Gudang",
+      receiver: "Gudang",
+      action: "IN",
+      quantityChange: Number(body.quantity),
+      description: "Tools Masuk ke Gudang",
+      }
+    });
+
+
     return NextResponse.json(tools)
   } catch (error) {
     console.error("POST error:", error)

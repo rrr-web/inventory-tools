@@ -3,7 +3,6 @@
 import Table from "@/components/table/Table";
 import { getData } from "@/lib/data"
 import { validateApiData } from "@/lib/formatDate";
-import { CheckIcon, PencilIcon, TrashIcon, XMarkIcon } from "@heroicons/react/16/solid";
 import { useEffect, useState } from "react"
 
 export default function HistoryToolsBroken(){
@@ -85,7 +84,7 @@ const handleSave = async (updatedRow) => {
         )
       )
 
-      alert("✅ Data berhasil diperbarui")
+      alert("Data berhasil diperbarui")
     } catch (err) {
       console.error(err)
       alert("Terjadi kesalahan: " + err.message)
@@ -98,7 +97,7 @@ const handleSave = async (updatedRow) => {
         method: "DELETE",
       })
       setToolsBroken((prev) => prev.filter((item) => item.id !== id))
-      alert("✅ Data berhasil dihapus")
+      alert("Data berhasil dihapus")
     } catch (err) {
       console.error(err)
       alert("Gagal menghapus data")

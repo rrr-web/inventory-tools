@@ -9,8 +9,8 @@ export default function DataRequest() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getData("api/request?status=open");
-        const clean =  validateApiData(data)
+        const data = await getData("/api/request?status=open");
+        const clean =  validateApiData(data.requests)
         setDataReq(clean);
       } catch (err) {
         console.log(err);
@@ -18,7 +18,7 @@ export default function DataRequest() {
     };
     fetchData();
   }, []);
-
+  
    const handleSave = async (updateRow) => {
        try {
          const res = await fetch(`/api/request/${updateRow.id}`, {
