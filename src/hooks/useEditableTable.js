@@ -8,26 +8,22 @@ export default function useEditableTable(columns) {
   const [editedData, setEditedData] = useState({});
   const [errors, setErrors] = useState({});
 
-  // 🔹 Start editing row
   const startEdit = (row) => {
     setEditingId(row.id);
     setEditedData(row);
     setErrors({});
   };
 
-  // 🔹 Cancel editing
   const cancelEdit = () => {
     setEditingId(null);
     setEditedData({});
     setErrors({});
   };
 
-  // 🔹 Handle input change (universal)
   const handleInputChange = (key, value) => {
     setEditedData((prev) => ({ ...prev, [key]: value }));
   };
 
-  // 🔹 Validate + Save
   const saveEdit = async (onSaveCallback) => {
     const isValid = validateAllFields(columns, editedData, setErrors);
     if (!isValid) return false;
@@ -38,7 +34,6 @@ export default function useEditableTable(columns) {
     return true;
   };
 
-  // 🔹 Delete wrapper
   const deleteRow = async (id, onDeleteCallback) => {
     await onDeleteCallback(id);
   };

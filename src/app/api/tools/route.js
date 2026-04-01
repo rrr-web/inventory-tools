@@ -38,7 +38,7 @@ async function addHistory({ toolName, brand, spec, PN, action, source, quantityC
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { toolId, toolName, brand, spec, PN, quantity } = body;
+    const { toolId, toolName, brand, spec, PN, quantity, location } = body;
 
     if (!toolId || !toolName || !quantity) {
       return NextResponse.json(
@@ -96,6 +96,7 @@ export async function POST(req) {
           brand,
           spec,
           PN,
+          location,
           quantity: Number(quantity),
         },
       });

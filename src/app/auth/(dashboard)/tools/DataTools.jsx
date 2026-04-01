@@ -32,6 +32,12 @@ export default function ToolsPage() {
       validation: { required: true, min: 3, max: 100 },
     },
     {
+      key: "location",
+      label: "Location",
+      type: "text",
+      validation: { required: true, min: 3, max: 100 },
+    },
+    {
       key: "quantity",
       label: "Quantity",
       type: "number",

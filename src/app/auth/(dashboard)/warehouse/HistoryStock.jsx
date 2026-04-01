@@ -103,7 +103,7 @@ export default function HistoryStock(){
         const res = await fetch(`/api/history/${id}`, {
           method: "DELETE",
         })
-        setDataIncoming((prev) => prev.filter((item) => item.id !== id))
+        setDataHistory((prev) => prev.filter((item) => item.id !== id))
         alert("✅ Data berhasil dihapus")
       } catch (err) {
         console.error(err)

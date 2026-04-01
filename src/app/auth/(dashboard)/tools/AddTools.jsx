@@ -8,7 +8,8 @@ export default function AddToolPage() {
   const [selectedTool, setSelectedTool] = useState(null);
 
   const [form, setForm] = useState({
-    quantity: 1
+    quantity: 1,
+    location: ""
   });
 
   useEffect(() => {
@@ -51,6 +52,7 @@ export default function AddToolPage() {
           brand: selectedTool.brand || "",
           spec: selectedTool.spec || "",
           PN: selectedTool.PN || "",
+          location: form.location,
           quantity: Number(form.quantity),
         }),
       });
@@ -167,6 +169,22 @@ export default function AddToolPage() {
                 className="w-full border p-2 rounded  resize-none text-base  placeholder: focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                 value={selectedTool?.spec || ""}
               />
+            </div>
+
+             {/* Location */}
+           <div>
+                <label className="text-sm font-medium leading-none">
+                  Lokasi
+                </label>
+                <input
+                  name="location"
+                  type="text"
+                  placeholder="Masukkan Lokasi"
+                  className="flex h-10 w-full rounded-md border border-input px-3 py-2 text-base  placeholder:focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                  value={form.location}
+                  onChange={handleChange}
+                  required
+                />
             </div>
 
 

@@ -15,10 +15,8 @@ export async function GET(req) {
       where,
       orderBy: { createdAt: "desc" },
     });
-    console.log(borrows)
     return NextResponse.json(borrows);
   } catch (error) {
-    console.error("GET Error:", error);
     return NextResponse.json(
       { error: "Gagal mengambil data peminjaman" },
       { status: 500 }
@@ -45,7 +43,6 @@ export async function POST(request) {
 
     return NextResponse.json(newBorrow)
   } catch (error) {
-    console.error("Error POST /api/borrow:", error)
     return NextResponse.json({ error: "Gagal menambah data" }, { status: 500 })
   }
 }

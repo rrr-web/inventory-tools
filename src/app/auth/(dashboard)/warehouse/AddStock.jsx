@@ -18,7 +18,7 @@ export default function AddStock() {
   };
 
     async function handleSubmit(e) {
-    e.preventDefault()
+
     try {
       const res = await fetch("/api/warehouse", {
         method: "POST",
