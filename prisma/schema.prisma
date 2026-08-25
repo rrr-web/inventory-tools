@@ -1,3 +1,9 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,59 +14,104 @@ datasource db {
 }
 
 model Borrow {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  toolName    String
+  borrower    String
+  borrowDate  DateTime
+  returnDate  DateTime?
+  status      String   @default("Open")
+  location    String
+  tools_keeper String
+  createdAt   DateTime @default(now())
+}
+
+model stock_toolRoom {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  toolId      String        @db.ObjectId
+  location    String
+  toolName    String
+  brand       String?
+  PN          String?
+  spec        String?
+  quantity    Int
+  createdAt   DateTime      @default(now())
+
+  // Relasi ke ToolBroken
+  // brokenLogs  toolBroken[]
+
+  // Relasi ke StockWarehouse (1-to-many)
+  // warehouseItems stock_warehouse? @relation(fields: [toolId], references: [id])
+}
+
+model toolBroken {
+  id           String          @id @default(auto()) @map("_id") @db.ObjectId
+  toolId       String          @db.ObjectId
+  toolName     String
+  quantity     Int
+  brokenDate   DateTime        @default(now())
+  reportedBy   String
+  description  String?
+  status       String          @default("Reported")
+  createdAt    DateTime        @default(now())
+
+  // Relasi ke Stock_ToolRoom
+  // tool         stock_toolRoom?  @relation(fields: [toolId], references: [id])
+}
+
+model stock_warehouse {
+  id           String          @id @default(auto()) @map("_id") @db.ObjectId
+  toolName     String
+  brand        String?
+  PN           String?
+  spec         String?
+  quantity     Int
+  location     String
+  createdAt    DateTime        @default(now())
+
+  // Relasi ke Stock_ToolRoom
+  // toolRoom     stock_toolRoom[]
+}
+
+
+model request_tool {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  toolName    String
+  quantity    Int
+  requester   String
+  brand       String?
+  spec        String?
+  PN          String?
+  price       Int?
+  reason      String
+  location    String
+  reference   String?
+  note        String?
+  status      String   @default("Open")
+  createdAt   DateTime @default(now())
 }
 
 model StockHistory {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  PN             String
-  action         String
-  brand          String
-  createdAt      DateTime @db.Date
-  description    String
-  quantityChange BigInt
-  source         String
-  spec           String
-  toolName       String
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  toolName     String
+  quantityChange     Int
+  PN String
+  brand String
+  spec String
+  action       String   
+  source       String 
+  description  String?
+  receiver  String?
+  createdAt    DateTime @default(now())
 }
 
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime  @default(now())
   name      String
+  userName  String   @unique  // 
   password  String
-  role      String
-  userName  String   @unique
+  role      String  @default("admin")
+  createdAt DateTime @default(now())
+
+
 }
 
-model request_tool {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-}
-
-model stock_toolRoom {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  PN        String
-  brand     String
-  createdAt DateTime @db.Date
-  location  String
-  quantity  BigInt
-  spec      String
-  toolId    String   @db.ObjectId
-  toolName  String
-}
-
-model stock_warehouse {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-}
-
-model toolBroken {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  brokenDate  DateTime @db.Date
-  createdAt   DateTime @db.Date
-  description String
-  quantity    BigInt
-  reportedBy  String
-  status      String
-  toolId      String   @db.ObjectId
-  toolName    String
-}
