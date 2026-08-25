@@ -1,9 +1,11 @@
+import Pagination from "@/components/table/Pagination";
 import Table from "@/components/table/Table";
 import { getData } from "@/lib/data";
 import { useEffect, useState } from "react";
 
 export default function DataStock() {
   const [dataStock, setDataStock] = useState([]);
+  const [pagination, setPagination] = useState([]);
 
   const columns = [
     {
@@ -42,6 +44,7 @@ export default function DataStock() {
     const fetchTools = async () => { 
     try{
         const result = await getData("/api/warehouse");
+        setPagination(result);
         setDataStock(result.data);
       }catch(err){
         console.log(err);
@@ -89,8 +92,7 @@ export default function DataStock() {
   return (
   <>
 
-    <Table columns={columns} data={dataStock} onSave={handleSave} onDelete={handleDelete} enableAction={true} enableSearch={true}/>
-
+    <Table columns={columns} data={dataStock} onSave={handleSave} onDelete={handleDelete} enableAction={true} enableSearch={true} currentPage={pagination.currentPage} totalPages={pagination.totalPages} />
   </>
   )
 }

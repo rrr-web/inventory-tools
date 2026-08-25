@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 
 export default function ToolsPage() {
   const [dataTools, setDataTools] = useState([])
+  const [pagination, setPagination] = useState([])
  
 
  const columns = [
@@ -49,7 +50,8 @@ export default function ToolsPage() {
     const fetchTools = async () => {
       try{
         const result= await getData('/api/tools')
-        setDataTools(result)
+        setPagination(result)
+        setDataTools(result.data)
       }catch(err){
         console.log(err);
       }
@@ -95,7 +97,7 @@ export default function ToolsPage() {
 
   return (
     <>
-    <Table columns={columns} data={dataTools} onDelete={handleDelete} onSave={handleSave} enableAction={true} enableSearch={true}/>
+    <Table columns={columns} data={dataTools} onDelete={handleDelete} onSave={handleSave} enableAction={true} enableSearch={true} currentPage={pagination.currentPage} totalPages={pagination.totalPages} onPageChange={pagination.currentPage}/>
     </>
   )
 }

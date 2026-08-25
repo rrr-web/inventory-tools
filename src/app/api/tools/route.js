@@ -1,13 +1,32 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET() {
+export async function GET(req) {
   try {
-    const tools = await prisma.stock_toolRoom.findMany({
-      orderBy: { createdAt: "desc" },
-    });
+  const { searchParams } = new URL(req.url);
+   const page = Number(searchParams.get("page")) || 1;
+  const limit = Number(searchParams.get("limit")) || 20;
 
-    return NextResponse.json(tools);
+   const skip = (page - 1) * limit;
+
+
+    const [tools, total] = await Promise.all([
+    prisma.stock_toolRoom.findMany({
+      skip,
+      take: limit,
+      orderBy: { createdAt: "desc" }
+    }),
+    prisma.stock_toolRoom.count()
+  ])
+
+    return NextResponse.json({
+      data: tools,
+        currentPage: page,
+        total,
+        totalPages: Math.ceil(total / limit),
+        totalItems: total
+    
+    });
   } catch (error) {
     console.error("GET Error:", error);
     return NextResponse.json(

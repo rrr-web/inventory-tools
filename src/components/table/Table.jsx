@@ -2,6 +2,7 @@ import { CheckIcon, PencilIcon, TrashIcon, XMarkIcon } from "@heroicons/react/16
 import { renderInput } from "@/lib/renderInput";
 import useEditableTable from "@/hooks/useEditableTable";
 import { useState, useMemo } from "react";
+import Pagination from "./Pagination";
 
 export default function Table({ 
   columns, 
@@ -9,7 +10,10 @@ export default function Table({
   onSave, 
   onDelete, 
   enableAction,
-  enableSearch 
+  enableSearch,
+  currentPage,
+  totalPages,
+  onPageChange
 }) {
   const {
     editingId,
@@ -168,6 +172,7 @@ export default function Table({
               }
             </tbody>
           </table>
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange}/>
         </div>
       </div>
     </div>
