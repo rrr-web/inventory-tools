@@ -31,6 +31,7 @@ async function main() {
         name: "Admin",
       userName: userName,
       password: hashed,
+      role: 'admin'
       
     },
   });
